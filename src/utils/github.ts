@@ -1,6 +1,32 @@
-export async function fetchBookmarks(username: string) {
+import * as fetchIntercept from 'fetch-intercept'
+
+import { getAccessToken, logout } from './user'
+
+fetchIntercept.register({
+  request(url, config?: RequestInit) {
+    const accessToken = getAccessToken()
+    if (accessToken && url.startsWith('https://api.github.com')) {
+      if (config === undefined) {
+        config = {}
+      }
+      if (!config.headers) {
+        config.headers = {}
+      }
+      config.headers = { ...config.headers, Authorization: `token ${accessToken}` }
+    }
+    return [url, config]
+  },
+  response(response) {
+    if (!response.ok && response.statusText === '401') {
+      setTimeout(() => logout())
+    }
+    return response
+  },
+})
+
+export async function fetchFileContent(username: string, filePath: string) {
   try {
-    const response = await fetch(`https://raw.githubusercontent.com/${username}/_bookmarks/master/README.md`)
+    const response = await fetch(`https://raw.githubusercontent.com/${username}/_bookmarks/master/${filePath}`)
 
     const text = await response.text()
     if (!response.ok) {
@@ -9,9 +35,53 @@ export async function fetchBookmarks(username: string) {
     return text
   } catch (error) {
     console.error(error)
-    return `
-## User bookmarks can't be found
-Make sure you have entered the right username and that the user has a valid bookmarks repository
-`
+    return null
+  }
+}
+
+export async function fetchFile(username: string, filePath: string) {
+  try {
+    const response = await fetch(`https://api.github.com/repos/${username}/_bookmarks/contents/${filePath}`)
+
+    const text = await response.json()
+    if (!response.ok) {
+      throw new Error(text)
+    }
+    return text
+  } catch (error) {
+    console.error(error)
+    return null
+  }
+}
+
+export async function updateFile(username: string, filePath: string, content: string, sha: string) {
+  try {
+    const response = await fetch(`https://api.github.com/repos/${username}/_bookmarks/contents/${filePath}`, {
+      method: 'PUT',
+      body: JSON.stringify({ content: btoa(content), sha, message: 'changed by Bookmarks' }),
+    })
+
+    const text = await response.text()
+    if (!response.ok) {
+      throw new Error(text)
+    }
+    return text
+  } catch (error) {
+    console.error(error)
+    return null
+  }
+}
+
+export async function fetchCurrentUser() {
+  try {
+    const response = await fetch(`https://api.github.com/user`)
+    if (!response.ok) {
+      throw new Error('Invalid response')
+    }
+    const user = await response.json()
+    return user
+  } catch (error) {
+    console.error(error)
+    return null
   }
 }
