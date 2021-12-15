@@ -11,7 +11,7 @@
 
     const result = await login(accessToken)
     if (result) {
-      navigate('/bookmarks')
+      navigate('/')
       return
     }
     throw new Error()
