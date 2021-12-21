@@ -3,9 +3,9 @@
   import { onMount } from 'svelte'
 
   import { DEFAULT_BOOKMARK_PATH } from '../constants'
+  import ReactAdapter from '../lib/ReactAdapter.svelte'
   import { fetchFile, updateFile } from '../utils/github'
   import { userSession } from '../utils/user'
-  import ReactAdapter from './ReactAdapter.svelte'
 
   export let path: string = DEFAULT_BOOKMARK_PATH
 

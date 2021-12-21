@@ -1,0 +1,26 @@
+<script lang="ts">
+  import { PopupWindow } from '../utils/loginWithGithub'
+  import { login, logout, userSession } from '../utils/user'
+  import Button from './Button.svelte'
+  import Link from './Link.svelte'
+
+  let isUserLoggedIn = false
+  $: userSession.subscribe((us) => (isUserLoggedIn = us.logged_in))
+</script>
+
+<nav class="w-full m-auto flex flex-row justify-center md:justify-between items-center">
+  <div class="bg-[url('/img/spacemarks_logo.svg')] bg-no-repeat bg-contain md:w-60 md:h-16 w-[40%] h-20" />
+
+  <div class="flex hidden md:block flex-row xxl:space-x-24 xl:space-x-16 lg:space-x-8 space-x-4">
+    <Link to="/">My Spacemarks</Link>
+    <Link to="/spacemarks/how_it_works">How it works</Link>
+    <a class="font-semibold underline-offset-8 hover:underline" href="https://github.com/spacemarks" target="_blank"
+      >Open source</a>
+  </div>
+
+  {#if isUserLoggedIn}
+    <Button _class="hidden md:block" secondary onClick={logout}>Logout</Button>
+  {:else}
+    <Button _class="hidden md:block" onClick={login}>Login with Github</Button>
+  {/if}
+</nav>

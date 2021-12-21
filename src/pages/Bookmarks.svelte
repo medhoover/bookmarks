@@ -1,8 +1,8 @@
 <script lang="ts">
   import { DEFAULT_BOOKMARK_PATH } from '../constants'
+  import Part from '../lib/Part.svelte'
   import { fetchFileContent } from '../utils/github'
   import { render as _render } from '../utils/markdown'
-  import Part from './Part.svelte'
 
   export let username: string
   export let path: string = DEFAULT_BOOKMARK_PATH

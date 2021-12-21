@@ -2,6 +2,7 @@ import Cookies from 'js-cookie'
 import { writable } from 'svelte/store'
 
 import { fetchCurrentUser } from './github'
+import { PopupWindow } from './loginWithGithub'
 
 export type UserSession =
   | { logged_in: false }
@@ -18,7 +19,7 @@ export const userSession = writable<UserSession>(
   initialSession ? { logged_in: true, ...initialSession } : { logged_in: false }
 )
 
-export async function login(accessToken: string) {
+async function _login(accessToken: string) {
   Cookies.set('at', accessToken, { expires: 14 })
 
   const result = await fetchCurrentUser()
@@ -34,6 +35,11 @@ export async function login(accessToken: string) {
 
   return true
 }
+
+export const login = () =>
+  PopupWindow.open()
+    .then((response: any) => _login(response.accessToken))
+    .catch(console.error)
 
 export function logout() {
   Cookies.remove('u')

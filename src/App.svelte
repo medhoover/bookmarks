@@ -2,28 +2,26 @@
   import { setContext } from 'svelte'
   import { Router, Route } from 'svelte-navigator'
 
-  import Bookmarks from './lib/Bookmarks.svelte'
-  import Editor from './lib/Editor.svelte'
-  import Home from './lib/Home.svelte'
-  import Login from './lib/Login.svelte'
+  import Bookmarks from './pages/Bookmarks.svelte'
+  import Editor from './pages/Editor.svelte'
+  import Home from './pages/Landing.svelte'
   import { userSession } from './utils/user'
 
   setContext('user', userSession)
 </script>
 
-<main>
+<div class="antialiased bg-slate-900 text-white md:h-screen h-full lg:p-8 sm:p-4 lg:text-base md:text-sm">
   <Router>
     <Route path="/"><Home /></Route>
-    <Route path="/oauth/callback" primary={false}><Login /></Route>
+    <Route path="/oauth/callback" primary={false}>Redirecting you to the main page...</Route>
     <Route path="/editor" primary={false}><Editor /></Route>
     <Route path="/editor/:path" primary={false} let:params><Editor path={params.path} /></Route>
-    <Route path="/:username" let:params><Bookmarks username={params.username} /></Route>
+    <Route path="/:username/*" let:params><Bookmarks username={params.username} /></Route>
   </Router>
-</main>
+</div>
 
 <style>
   :root {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans',
-      'Helvetica Neue', sans-serif;
+    font-family: 'Open Sans', sans-serif;
   }
 </style>

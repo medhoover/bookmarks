@@ -1,5 +1,6 @@
 import * as fetchIntercept from 'fetch-intercept'
 
+import { BOOKMARK_REPO } from '../constants'
 import { getAccessToken, logout } from './user'
 
 fetchIntercept.register({
@@ -26,7 +27,7 @@ fetchIntercept.register({
 
 export async function fetchFileContent(username: string, filePath: string) {
   try {
-    const response = await fetch(`https://raw.githubusercontent.com/${username}/_bookmarks/master/${filePath}`)
+    const response = await fetch(`https://raw.githubusercontent.com/${username}/${BOOKMARK_REPO}/master/${filePath}`)
 
     const text = await response.text()
     if (!response.ok) {
@@ -41,7 +42,7 @@ export async function fetchFileContent(username: string, filePath: string) {
 
 export async function fetchFile(username: string, filePath: string) {
   try {
-    const response = await fetch(`https://api.github.com/repos/${username}/_bookmarks/contents/${filePath}`)
+    const response = await fetch(`https://api.github.com/repos/${username}/${BOOKMARK_REPO}/contents/${filePath}`)
 
     const text = await response.json()
     if (!response.ok) {
@@ -56,7 +57,7 @@ export async function fetchFile(username: string, filePath: string) {
 
 export async function updateFile(username: string, filePath: string, content: string, sha: string) {
   try {
-    const response = await fetch(`https://api.github.com/repos/${username}/_bookmarks/contents/${filePath}`, {
+    const response = await fetch(`https://api.github.com/repos/${username}/${BOOKMARK_REPO}/contents/${filePath}`, {
       method: 'PUT',
       body: JSON.stringify({ content: btoa(content), sha, message: 'changed by Bookmarks' }),
     })
