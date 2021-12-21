@@ -2,9 +2,11 @@
   import { setContext } from 'svelte'
   import { Router, Route } from 'svelte-navigator'
 
-  import Bookmarks from './pages/Bookmarks.svelte'
+  import PrivateRoute from './lib/PrivateRoute.svelte'
+  import Bookmarks from './pages/Bookmark.svelte'
   import Editor from './pages/Editor.svelte'
   import Home from './pages/Landing.svelte'
+  import MyBookmarks from './pages/MyBookmarks.svelte'
   import { userSession } from './utils/user'
 
   setContext('user', userSession)
@@ -14,7 +16,8 @@
   <Router>
     <Route path="/"><Home /></Route>
     <Route path="/oauth/callback" primary={false}>Redirecting you to the main page...</Route>
-    <Route path="/editor" primary={false}><Editor /></Route>
+    <PrivateRoute path="/profile"><MyBookmarks /></PrivateRoute>
+    <PrivateRoute path="/editor"><Editor /></PrivateRoute>
     <Route path="/editor/:path" primary={false} let:params><Editor path={params.path} /></Route>
     <Route path="/:username/*" let:params><Bookmarks username={params.username} /></Route>
   </Router>

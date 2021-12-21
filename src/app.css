@@ -15,5 +15,24 @@
   }
 }
 
+.bookmark-card p,
+.bookmark-card span,
+.bookmark-card a,
+.bookmark-card h1,
+.bookmark-card h2,
+.bookmark-card h3,
+.bookmark-card h4,
+.bookmark-card h5,
+.bookmark-card strong {
+  @apply text-xs;
+  @apply font-normal;
+}
+.bookmark-card h1,
+.bookmark-card h2,
+.bookmark-card h3 {
+  @apply text-base;
+  @apply font-semibold;
+}
+
 @tailwind components;
 @tailwind utilities;

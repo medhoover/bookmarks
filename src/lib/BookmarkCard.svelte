@@ -1,10 +1,29 @@
 <script lang="ts">
+  import { onMount } from 'svelte'
+
+  import { fetchFileBlob } from '../utils/github'
+  import Part from './Part.svelte'
+
+  export let url: string | null = null
+
+  let markdown: string | null = null
+
+  $: onMount(async () => {
+    let file = await fetchFileBlob(url)
+    if (file === null) {
+      return
+    }
+    markdown = atob(file.content)
+  })
 </script>
 
 <div {...$$props}>
   <div class="relative">
     <div class="absolute w-full h-full p-11 flex flex-col">
-      <div class="flex-1 text-gray-900 overflow-hidden overflow-ellipsis bottom-transparent">
+      <div class="bookmark-card flex-1 text-gray-900 overflow-hidden overflow-ellipsis bottom-transparent">
+        {#if markdown}
+          <Part {markdown} />
+        {/if}
         <slot name="content" />
       </div>
       <slot class="w-fit mx-auto" name="action-main" />

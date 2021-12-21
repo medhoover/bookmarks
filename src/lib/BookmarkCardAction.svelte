@@ -1,10 +1,11 @@
 <script lang="ts">
   export let Icon: any
   export let onClick = undefined
+  export let _class = ''
 </script>
 
 <div
-  class="group h-[97px] w-full flex flex-col-reverse justify-between bg-no-repeat custom-mask cursor-pointer"
+  class={`group h-[97px] w-full flex flex-col-reverse justify-between bg-no-repeat custom-mask cursor-pointer ${_class}`}
   on:click|stopPropagation={onClick}>
   <button class="w-10 h-10 mx-auto rounded-full flex justify-center items-center bg-blue-700">
     <svelte:component this={Icon} />

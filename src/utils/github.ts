@@ -6,7 +6,7 @@ import { getAccessToken, logout } from './user'
 fetchIntercept.register({
   request(url, config?: RequestInit) {
     const accessToken = getAccessToken()
-    if (accessToken && url.startsWith('https://api.github.com')) {
+    if (accessToken && url && url.startsWith('https://api.github.com')) {
       if (config === undefined) {
         config = {}
       }
@@ -55,6 +55,21 @@ export async function fetchFile(username: string, filePath: string) {
   }
 }
 
+export async function fetchFileBlob(url: string) {
+  try {
+    const response = await fetch(url)
+
+    const text = await response.json()
+    if (!response.ok) {
+      throw new Error(text)
+    }
+    return text
+  } catch (error) {
+    console.error(error)
+    return null
+  }
+}
+
 export async function updateFile(username: string, filePath: string, content: string, sha: string) {
   try {
     const response = await fetch(`https://api.github.com/repos/${username}/${BOOKMARK_REPO}/contents/${filePath}`, {
@@ -81,6 +96,20 @@ export async function fetchCurrentUser() {
     }
     const user = await response.json()
     return user
+  } catch (error) {
+    console.error(error)
+    return null
+  }
+}
+
+export async function fetchUserBookmarks(username: string) {
+  try {
+    const response = await fetch(`https://api.github.com/repos/${username}/${BOOKMARK_REPO}/git/trees/main`)
+    if (!response.ok) {
+      throw new Error('Invalid response')
+    }
+    const tree = (await response.json())?.tree?.filter((item) => item.type === 'blob')
+    return tree
   } catch (error) {
     console.error(error)
     return null
