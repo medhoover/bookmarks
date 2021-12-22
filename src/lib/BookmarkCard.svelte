@@ -5,6 +5,7 @@
   import Part from './Part.svelte'
 
   export let url: string | null = null
+  export let onClick: (e: any) => void = undefined
 
   let markdown: string | null = null
 
@@ -20,8 +21,8 @@
   })
 </script>
 
-<div {...$$props}>
-  <div class="relative min-w-[300px]">
+<div {...$$props} on:click={onClick}>
+  <div class="relative w-[300px] select-none">
     <div class="absolute w-full h-full p-11 flex flex-col">
       <div class="bookmark-card flex-1 text-gray-900 overflow-hidden overflow-ellipsis bottom-transparent">
         {#if markdown}

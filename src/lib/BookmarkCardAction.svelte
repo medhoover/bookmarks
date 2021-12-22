@@ -10,7 +10,7 @@
   <button class="w-10 h-10 mx-auto rounded-full flex justify-center items-center bg-blue-700">
     <svelte:component this={Icon} />
   </button>
-  <div class="mt-3 text-center font-bold arrow-down invisible group-hover:visible">
+  <div class="mt-3 text-center font-bold arrow-down pointer-fine:invisible group-hover:visible">
     <slot />
   </div>
 </div>
@@ -19,9 +19,28 @@
   .custom-mask {
     background-image: url('/img/bookmark_actionbg.svg');
     background-position: bottom;
-    background-size: 1px;
+
     transition: background-size 0.15s cubic-bezier(0.4, 0, 0.2, 1);
   }
+
+  @media (pointer: fine) {
+    .custom-mask {
+      background-size: 1px;
+    }
+  }
+
+  @media (pointer: none) {
+    .custom-mask {
+      background-size: 100%;
+    }
+  }
+
+  @media (pointer: coarse) {
+    .custom-mask {
+      background-size: 100%;
+    }
+  }
+
   .custom-mask:hover {
     background-size: 100%;
   }

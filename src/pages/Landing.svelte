@@ -4,6 +4,7 @@
   import BookmarkCard from '../lib/BookmarkCard.svelte'
   import BookmarkAction from '../lib/BookmarkCardAction.svelte'
   import Button from '../lib/Button.svelte'
+  import Footer from '../lib/Footer.svelte'
   import MainHeader from '../lib/MainHeader.svelte'
   import PlusIcon from '../lib/icons/PlusIcon.svelte'
   import { login, userSession } from '../utils/user'
@@ -15,7 +16,7 @@
   })
 </script>
 
-<section class="container mx-auto h-full flex flex-col">
+<section class="container mx-auto min-h-screen flex flex-col">
   <MainHeader />
 
   <main class="flex-1 grid md:grid-cols-2 grid-row-2 auto-rows-max place-content-evenly place-items-center gap-4">
@@ -42,10 +43,5 @@
       </BookmarkCard>
     </div>
   </main>
-  <footer class="m-auto text-xs text-neutral-500">
-    Built with <a class="underline" target="_blank" href="https://pages.github.com/">Github pages</a> and
-    <a class="underline" target="_blank" href="https://docs.github.com/en/developers/apps/building-oauth-apps"
-      >Github OAuth</a
-    >.
-  </footer>
+  <Footer />
 </section>

@@ -11,9 +11,9 @@
   let handleLogin = () => login().then(() => navigate('/profile'))
 </script>
 
-<nav class="w-full m-auto flex flex-row justify-center md:justify-between items-center">
+<nav class="w-full md:m-auto m-4 flex flex-row justify-center md:justify-between items-center">
   <Link to="/"
-    ><div class="bg-[url('/img/spacemarks_logo.svg')] bg-no-repeat bg-contain md:w-60 md:h-16 w-[40%] h-20" />
+    ><div tabindex="0" class="bg-[url('/img/spacemarks_logo.svg')] bg-no-repeat bg-contain md:w-60 md:h-16 w-40 h-20" />
   </Link>
 
   <div class="flex hidden md:block flex-row xxl:space-x-24 xl:space-x-16 lg:space-x-8 space-x-4">

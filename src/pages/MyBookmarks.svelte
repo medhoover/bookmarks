@@ -5,6 +5,7 @@
   import BookmarkCard from '../lib/BookmarkCard.svelte'
   import BookmarkCardAction from '../lib/BookmarkCardAction.svelte'
   import Button from '../lib/Button.svelte'
+  import Footer from '../lib/Footer.svelte'
   import MainHeader from '../lib/MainHeader.svelte'
   import LoadingIcon from '../lib/icons/LoadingIcon.svelte'
   import PlusIcon from '../lib/icons/PlusIcon.svelte'
@@ -47,10 +48,10 @@
   }
 </script>
 
-<section class="container mx-auto h-full flex flex-col">
+<section class="container mx-auto min-h-screen flex flex-col">
   <MainHeader />
   {#if isFirstTime === true}
-    <main class="h-full grid md:grid-cols-2 grid-row-2 auto-rows-max place-content-evenly place-items-center gap-4">
+    <main class="flex-1 grid md:grid-cols-2 grid-row-2 auto-rows-max place-content-evenly place-items-center gap-4">
       <div class="flex flex-col justify-center items-center text-center space-y-8">
         <h1 class="font-bold text-6xl">One last step...</h1>
         <p class="w-3/4">
@@ -69,7 +70,7 @@
       </div>
     </main>
   {:else if isFirstTime === false}
-    <main class="h-full flex justify-between xl:flex-row items-center flex-col-reverse">
+    <main class="flex-1 flex justify-between xl:flex-row items-center flex-col-reverse">
       <div class="grid xl:grid-flow-col xl:grid-cols-none lg:grid-cols-8 md:grid-cols-2 grid-cols-1">
         {#each bookmarks as { path, url }, i}
           <div class="animate-margin-right clicked" style="z-index: {i + 10};">
@@ -95,16 +96,11 @@
       </div>
     </main>
   {:else}
-    <div class="flex h-full justify-center items-center">
+    <div class="flex flex-1 justify-center items-center">
       <LoadingIcon />
     </div>
   {/if}
-  <footer class="container m-auto text-center text-xs text-neutral-500">
-    Built with <a class="underline" target="_blank" href="https://pages.github.com/">Github pages</a> and
-    <a class="underline" target="_blank" href="https://docs.github.com/en/developers/apps/building-oauth-apps"
-      >Github OAuth</a
-    >.
-  </footer>
+  <Footer />
 </section>
 
 <style>

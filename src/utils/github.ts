@@ -102,6 +102,20 @@ export async function fetchCurrentUser() {
   }
 }
 
+export async function fetchUser(username: string) {
+  try {
+    const response = await fetch(`https://api.github.com/users/${username}`)
+    if (!response.ok) {
+      throw new Error('Invalid response')
+    }
+    const user = await response.json()
+    return user
+  } catch (error) {
+    console.error(error)
+    return null
+  }
+}
+
 export async function fetchUserBookmarks(username: string) {
   try {
     const response = await fetch(`https://api.github.com/repos/${username}/${BOOKMARK_REPO}/git/trees/main`)
