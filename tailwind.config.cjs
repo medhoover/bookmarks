@@ -4,7 +4,7 @@ const config = {
     extend: {},
   },
 
-  plugins: [],
+  plugins: [require('tailwindcss-touch')()],
 }
 
 module.exports = config

@@ -20,7 +20,7 @@
     background-image: url('/img/bookmark_actionbg.svg');
     background-position: bottom;
     background-size: 1px;
-    transition: background-size 0.2s ease-out;
+    transition: background-size 0.15s cubic-bezier(0.4, 0, 0.2, 1);
   }
   .custom-mask:hover {
     background-size: 100%;

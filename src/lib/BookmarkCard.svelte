@@ -9,6 +9,9 @@
   let markdown: string | null = null
 
   $: onMount(async () => {
+    if (!url) {
+      return
+    }
     let file = await fetchFileBlob(url)
     if (file === null) {
       return
@@ -18,7 +21,7 @@
 </script>
 
 <div {...$$props}>
-  <div class="relative">
+  <div class="relative min-w-[300px]">
     <div class="absolute w-full h-full p-11 flex flex-col">
       <div class="bookmark-card flex-1 text-gray-900 overflow-hidden overflow-ellipsis bottom-transparent">
         {#if markdown}
@@ -28,7 +31,7 @@
       </div>
       <slot class="w-fit mx-auto" name="action-main" />
     </div>
-    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 372 777" class="w-full h-full">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 372 777" class="w-full h-full min-w-[300px]">
       <g filter="url(#a)">
         <path
           fill="#fff"
