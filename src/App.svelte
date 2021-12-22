@@ -13,7 +13,7 @@
   setContext('user', userSession)
 </script>
 
-<div class="antialiased bg-slate-900 text-white min-h-screen h-full lg:p-8 sm:p-4 lg:text-base md:text-sm">
+<div class="antialiased bg-slate-900 text-white min-h-screen h-full flex lg:p-8 sm:p-4 lg:text-base md:text-sm">
   <Router>
     <Route path="/" primary={false}><Home /></Route>
     <Route path="/oauth/callback" primary={false}>Redirecting you to the main page...</Route>

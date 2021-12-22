@@ -16,7 +16,7 @@
   })
 </script>
 
-<section class="container mx-auto min-h-screen flex flex-col">
+<section class="container mx-auto flex flex-col">
   <MainHeader />
 
   <main class="flex-1 grid md:grid-cols-2 grid-row-2 auto-rows-max place-content-evenly place-items-center gap-4">
@@ -36,7 +36,7 @@
         url="https://api.github.com/repos/medhoover/_spacemarks/git/blobs/442cf80dd6c9b2e44c1231e38113e4b3f3470242">
         <div slot="action-main">
           {#if isUserLoggedIn}
-            <BookmarkAction _class="animate-bounce" Icon={PlusIcon} onClick={() => navigate('/profile')}
+            <BookmarkAction _class="animate-bounce" Icon={PlusIcon} onClick={() => navigate('/editor')}
               >Create a bookmark</BookmarkAction>
           {/if}
         </div>

@@ -13,7 +13,7 @@
   $: contentPromise = fetchFileContent(username, path)
 </script>
 
-<section class="container mx-auto min-h-screen flex flex-col">
+<section class="container mx-auto flex flex-col">
   <ProfileHeader {username} />
   <main class="flex-1 flex justify-center">
     {#await contentPromise}
