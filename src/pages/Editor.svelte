@@ -5,6 +5,7 @@
 
   import Button from '../lib/Button.svelte'
   import Footer from '../lib/Footer.svelte'
+  import Link from '../lib/Link.svelte'
   import MainHeader from '../lib/MainHeader.svelte'
   import ReactAdapter from '../lib/ReactAdapter.svelte'
   import LoadingIcon from '../lib/icons/LoadingIcon.svelte'
@@ -88,12 +89,21 @@
   <MainHeader />
   <main class="flex-1 mx-auto 2xl:w-2/3 xl:w-3/4 lg:w-4/5 w-5/6 md:mt-40 mt-20">
     <!-- https://github.com/outline/rich-markdown-editor -->
-    <ReactAdapter {id} el={ReactEditor} value={markdown} autoFocus onChange={onChane} theme={editorConfig.dark} />
+    <ReactAdapter
+      {id}
+      el={ReactEditor}
+      value={markdown}
+      autoFocus
+      readOnly={false}
+      onChange={onChane}
+      theme={editorConfig.dark} />
   </main>
   <div class="my-4 w-full flex flex-row justify-end space-x-8 items-center">
     {#if success === true}
       <span class="text-neutral-400">
-        Bookmark was successfully {isNewFile ? 'Create' : 'Updated'}!
+        Bookmark was successfully {isNewFile ? 'Create' : 'Updated'}! <Link
+          _class="underline"
+          to={`/${username}/${path}`}>View the result here</Link>
       </span>
     {:else if success === false}
       <span class="text-red-800"> Could not save bookmark. Please try again. </span>
