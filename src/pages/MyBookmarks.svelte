@@ -1,7 +1,7 @@
 <script lang="ts">
   import { onMount } from 'svelte'
   import { useNavigate } from 'svelte-navigator'
-  import { Link } from 'svelte-navigator'
+  import { link } from 'svelte-navigator'
 
   import Button from '../lib/Button.svelte'
   import Footer from '../lib/Footer.svelte'
@@ -41,7 +41,7 @@
     if (!isForkClicked) {
       return
     }
-    ;() => navigate('/editor')
+    navigate('/editor')
   }
 </script>
 
@@ -67,7 +67,7 @@
       </div>
     </main>
   {:else if isFirstTime === false}
-    <main class="flex-1 flex flex-col space-y-4 lg:mt-40 mt-10">
+    <main class="flex-1 flex flex-col space-y-4 lg:mt-30 lg:mb-20 my-10">
       <div class="mb-4"><h1>Your spacemarks</h1></div>
       <div class="p-4 bg-slate-800 rounded-md flex flex-row justify-between items-center">
         {#if spacemarks.length === 0}
@@ -75,13 +75,31 @@
         {:else}
           <span>You have {spacemarks.length} spacemarks</span>
         {/if}
-        <Button _class="" onClick={() => navigate('/editor')}>Add new</Button>
+        <Button onClick={() => navigate('/editor')}>Add new Spacemark</Button>
       </div>
       {#each spacemarks as { path, url }, i}
         {#await fetchFileBlob(url) then file}
-          <Link to={`/editor/${path}`} class="spacemark-card p-4 hover:bg-slate-800 rounded-md">
-            <Part markdown={window.atob(file.content.slice(0, 500)) + ' ...'} />
-          </Link>
+          <div
+            class="group p-4 hover:bg-slate-800 rounded-md cursor-pointer"
+            on:click|stopPropagation={() => navigate(`/editor/${path}`)}>
+            <div class="spacemark-card">
+              <Part markdown={window.atob(file.content.slice(0, 500)) + ' ...'} />
+            </div>
+            <div class="flex flex-row justify-end space-x-4 mx-4">
+              <span class="group-hover:visible invisible font-bold hover:underline underline-offset-2">Edit</span>
+              <a
+                class="group-hover:visible invisible font-bold hover:underline underline-offset-2"
+                use:link
+                target="_blank"
+                href={`/${username}/${path}`}
+                on:click|stopPropagation>
+                View
+              </a>
+              <span
+                class="group-hover:visible invisible font-bold hover:underline underline-offset-2"
+                on:click|stopPropagation={() => window.alert('not yet supported')}>Remove</span>
+            </div>
+          </div>
         {/await}
       {/each}
     </main>

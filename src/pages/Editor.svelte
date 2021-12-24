@@ -11,7 +11,6 @@
   import LoadingIcon from '../lib/icons/LoadingIcon.svelte'
   import * as editorConfig from '../utils/editor'
   import { fetchFile, fetchUserBookmarks, saveFile } from '../utils/github'
-  import { parse } from '../utils/markdown'
   import { userSession } from '../utils/user'
 
   export let path: string = null
@@ -22,6 +21,7 @@
   let changed = false
   let saving = false
   let success = null
+  let loading = true
   let navigate = useNavigate()
   let revervedNames = []
   let id = undefined
@@ -57,7 +57,7 @@
       }
       const result = await saveFile(username, title, content, previous_sha)
       if (!path) {
-        navigate(`/editor/${username}/${title}`)
+        navigate(`/${username}/${title}`)
       }
       success = result !== null ? true : false
     } finally {
@@ -76,39 +76,47 @@
     changed = false
   }
 
-  $: onMount(async function () {
-    let repoTree = await fetchUserBookmarks(username)
-    if (!repoTree) {
-      navigate('/profile')
-      return
-    }
+  $: onMount(() => {
+    ;(async function () {
+      let repoTree = await fetchUserBookmarks(username)
+      if (!repoTree) {
+        navigate('/profile')
+        return
+      }
 
-    revervedNames = repoTree.map((item) => item.path)
+      revervedNames = repoTree.map((item: any) => item.path)
 
-    if (path === null) {
-      return
-    }
-    let file = await fetchFile(username, path)
-    if (file === null) {
-      return
-    }
-    markdown = window.atob(file.content)
-    previous_sha = file.sha
+      if (path === null) {
+        return
+      }
+      let file = await fetchFile(username, path)
+      if (file === null) {
+        return
+      }
+      markdown = window.atob(file.content)
+      previous_sha = file.sha
+    })().finally(() => {
+      loading = false
+    })
   })
 </script>
 
 <section class="container mx-auto flex flex-col">
   <MainHeader />
-  <main class="flex-1 mx-auto 2xl:w-2/3 xl:w-3/4 lg:w-4/5 w-5/6 md:mt-40 mt-20">
-    <!-- https://github.com/outline/rich-markdown-editor -->
-    <ReactAdapter
-      {id}
-      el={ReactEditor}
-      value={markdown}
-      autoFocus
-      readOnly={false}
-      onChange={onChane}
-      theme={editorConfig.dark} />
+  <main class="flex-1 mx-auto 2xl:w-2/3 xl:w-3/4 lg:w-4/5 w-5/6 md:mt-30 mt-20">
+    {#if loading}
+      <LoadingIcon />
+    {:else}
+      <!-- https://github.com/outline/rich-markdown-editor -->
+      <ReactAdapter
+        {id}
+        el={ReactEditor}
+        value={markdown}
+        autoFocus
+        readOnly={false}
+        onChange={onChane}
+        theme={editorConfig.dark} />
+    {/if}
   </main>
   <div class="my-4 w-full flex flex-row justify-end space-x-8 items-center">
     {#if success === true}
