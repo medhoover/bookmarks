@@ -83,10 +83,9 @@
             class="group p-4 hover:bg-slate-800 rounded-md cursor-pointer"
             on:click|stopPropagation={() => navigate(`/editor/${path}`)}>
             <div class="spacemark-card">
-              <Part markdown={window.atob(file.content.slice(0, 500)) + ' ...'} />
+              <Part markdown={atob(file.content.slice(0, 500)) + ' ...'} />
             </div>
             <div class="flex flex-row justify-end space-x-4 mx-4">
-              <span class="group-hover:visible invisible font-bold hover:underline underline-offset-2">Edit</span>
               <a
                 class="group-hover:visible invisible font-bold hover:underline underline-offset-2"
                 use:link
@@ -95,6 +94,8 @@
                 on:click|stopPropagation>
                 View
               </a>
+              <span class="group-hover:visible invisible font-bold hover:underline underline-offset-2">Edit</span>
+
               <span
                 class="group-hover:visible invisible font-bold hover:underline underline-offset-2"
                 on:click|stopPropagation={() => window.alert('not yet supported')}>Remove</span>

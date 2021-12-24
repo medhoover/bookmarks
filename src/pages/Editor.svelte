@@ -93,7 +93,7 @@
       if (file === null) {
         return
       }
-      markdown = window.atob(file.content)
+      markdown = atob(file.content)
       previous_sha = file.sha
     })().finally(() => {
       loading = false
@@ -121,10 +121,9 @@
   <div class="my-4 w-full flex flex-row justify-end space-x-8 items-center">
     {#if success === true}
       <span class="text-neutral-400">
-        Spacemark was successfully {path === null ? 'Create' : 'Updated'}! <Link
-          _class="underline"
-          to={`/${username}/${path}`}>View the result here</Link>
+        Spacemark was successfully {path === null ? 'Create' : 'Updated'}!
       </span>
+      <Link _class="underline" to={`/${username}/${path}`}>View the result here</Link>
     {:else if success === false}
       <span class="text-red-800"> Could not save spacemark. Please try again. </span>
     {/if}
