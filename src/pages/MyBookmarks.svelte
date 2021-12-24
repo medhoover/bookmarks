@@ -1,8 +1,10 @@
 <script lang="ts">
+  import Cookies from 'js-cookie'
   import { onMount } from 'svelte'
   import { useNavigate } from 'svelte-navigator'
   import { link } from 'svelte-navigator'
 
+  import Alert from '../lib/Alert.svelte'
   import Button from '../lib/Button.svelte'
   import Footer from '../lib/Footer.svelte'
   import MainHeader from '../lib/MainHeader.svelte'
@@ -49,7 +51,10 @@
     }
     await deleteFile(username, path, sha)
 
-    setTimeout(() => loadBookmarks(), 2000)
+    const inTwoMinutes = new Date(new Date().getTime() + 2 * 60 * 1000)
+    Cookies.set(path, 'removed', { expires: inTwoMinutes })
+
+    setTimeout(loadBookmarks)
   }
 
   $: onMount(() => {
@@ -81,6 +86,10 @@
   {:else if isFirstTime === false}
     <main class="flex-1 flex flex-col space-y-4 lg:mt-30 lg:mb-20 my-10">
       <div class="mb-4"><h1>Your spacemarks</h1></div>
+      {#if Cookies.get('newSpcemarkRecentlyAdded')}
+        <Alert _class="font-bold"
+          ><span class="animate-ping">☕️</span> &nbsp;&nbsp; New spacemarks might take a minute to be listed.</Alert>
+      {/if}
       <div class="p-4 bg-slate-800 rounded-md flex flex-row justify-between items-center">
         {#if spacemarks.length === 0}
           <span>You have not created any spacemarks yet</span>
@@ -91,28 +100,30 @@
       </div>
       {#each spacemarks as { path, url, sha } (sha)}
         {#await fetchFileBlob(url) then file}
-          <div
-            class="group p-4 hover:bg-slate-800 rounded-md cursor-pointer"
-            on:click|stopPropagation={() => navigate(`/editor/${path}`)}>
-            <div class="spacemark-card">
-              <Part markdown={atob(file.content.slice(0, 500)) + ' ...'} />
-            </div>
-            <div class="flex flex-row justify-end space-x-4 mx-4">
-              <a
-                class="group-hover:visible invisible font-bold hover:underline underline-offset-2"
-                use:link
-                target="_blank"
-                href={`/${username}/${path}`}
-                on:click|stopPropagation>
-                View
-              </a>
-              <span class="group-hover:visible invisible font-bold hover:underline underline-offset-2">Edit</span>
+          {#if !Cookies.get(path)}
+            <div
+              class="group p-4 hover:bg-slate-800 rounded-md cursor-pointer"
+              on:click|stopPropagation={() => navigate(`/editor/${path}`)}>
+              <div class="spacemark-card">
+                <Part markdown={atob(file.content.slice(0, 500)) + ' ...'} />
+              </div>
+              <div class="flex flex-row justify-end space-x-4 mx-4">
+                <a
+                  class="group-hover:visible invisible font-bold hover:underline underline-offset-2"
+                  use:link
+                  target="_blank"
+                  href={`/${username}/${path}`}
+                  on:click|stopPropagation>
+                  View
+                </a>
+                <span class="group-hover:visible invisible font-bold hover:underline underline-offset-2">Edit</span>
 
-              <span
-                class="group-hover:visible invisible font-bold hover:underline underline-offset-2"
-                on:click|stopPropagation={() => handleFileDelete(path, sha)}>Remove</span>
+                <span
+                  class="group-hover:visible invisible font-bold hover:underline underline-offset-2"
+                  on:click|stopPropagation={() => handleFileDelete(path, sha)}>Remove</span>
+              </div>
             </div>
-          </div>
+          {/if}
         {/await}
       {/each}
     </main>

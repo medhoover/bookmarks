@@ -1,4 +1,5 @@
 <script lang="ts">
+  import Cookies from 'js-cookie'
   import ReactEditor from 'rich-markdown-editor'
   import { onMount } from 'svelte'
   import { useNavigate } from 'svelte-navigator'
@@ -25,6 +26,7 @@
   let navigate = useNavigate()
   let revervedNames = []
   let id = undefined
+  let viewLink = '#'
 
   $: userSession.subscribe((us) => {
     if (us.logged_in) {
@@ -57,7 +59,9 @@
       }
       const result = await saveFile(username, title, content, previous_sha)
       if (!path) {
-        navigate(`/${username}/${title}`)
+        viewLink = `/${username}/${title}`
+        const inOneMinute = new Date(new Date().getTime() + 60 * 1000)
+        Cookies.set(path, 'newSpcemarkRecentlyAdded', { expires: inOneMinute })
       }
       success = result !== null ? true : false
     } finally {
@@ -93,6 +97,7 @@
       if (file === null) {
         return
       }
+      viewLink = `/${username}/${path}`
       markdown = atob(file.content)
       previous_sha = file.sha
     })().finally(() => {
@@ -123,7 +128,7 @@
       <span class="text-neutral-400">
         Spacemark was successfully {path === null ? 'Create' : 'Updated'}!
       </span>
-      <Link blank _class="underline" to={`/${username}/${path}`}>View the result here</Link>
+      <Link blank _class="underline" to={viewLink}>View the result here</Link>
     {:else if success === false}
       <span class="text-red-800"> Could not save spacemark. Please try again. </span>
     {/if}
