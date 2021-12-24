@@ -92,7 +92,7 @@
     if (file === null) {
       return
     }
-    markdown = atob(file.content)
+    markdown = window.atob(file.content)
     previous_sha = file.sha
   })
 </script>

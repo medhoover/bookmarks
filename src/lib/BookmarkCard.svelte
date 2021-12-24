@@ -17,7 +17,7 @@
     if (file === null) {
       return
     }
-    markdown = atob(file.content)
+    markdown = window.atob(file.content)
   })
 </script>
 

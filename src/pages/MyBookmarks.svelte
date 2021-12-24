@@ -80,7 +80,7 @@
       {#each spacemarks as { path, url }, i}
         {#await fetchFileBlob(url) then file}
           <Link to={`/editor/${path}`} class="spacemark-card p-4 hover:bg-slate-800 rounded-md">
-            <Part markdown={atob(file.content.slice(0, 500)) + ' ...'} />
+            <Part markdown={window.atob(file.content.slice(0, 500)) + ' ...'} />
           </Link>
         {/await}
       {/each}
