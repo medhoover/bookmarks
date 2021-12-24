@@ -70,11 +70,11 @@ export async function fetchFileBlob(url: string) {
   }
 }
 
-export async function updateFile(username: string, filePath: string, content: string, sha: string) {
+export async function saveFile(username: string, filePath: string, content: string, sha?: string) {
   try {
     const response = await fetch(`https://api.github.com/repos/${username}/${BOOKMARK_REPO}/contents/${filePath}`, {
       method: 'PUT',
-      body: JSON.stringify({ content: btoa(content), sha, message: 'changed by Bookmarks' }),
+      body: JSON.stringify({ content: btoa(content), sha, message: 'changed by spacemarks.co' }),
     })
 
     const text = await response.text()

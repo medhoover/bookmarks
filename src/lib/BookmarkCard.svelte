@@ -24,7 +24,7 @@
 <div {...$$props} on:click={onClick}>
   <div class="relative w-[300px] select-none">
     <div class="absolute w-full h-full p-11 flex flex-col">
-      <div class="bookmark-card flex-1 text-gray-900 overflow-hidden overflow-ellipsis bottom-transparent">
+      <div class="spacemark-card flex-1 text-gray-900 overflow-hidden overflow-ellipsis bottom-transparent">
         {#if markdown}
           <Part {markdown} />
         {/if}

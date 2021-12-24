@@ -1,22 +1,20 @@
 <script lang="ts">
   import { onMount } from 'svelte'
   import { useNavigate } from 'svelte-navigator'
+  import { Link } from 'svelte-navigator'
 
-  import BookmarkCard from '../lib/BookmarkCard.svelte'
-  import BookmarkCardAction from '../lib/BookmarkCardAction.svelte'
   import Button from '../lib/Button.svelte'
   import Footer from '../lib/Footer.svelte'
   import MainHeader from '../lib/MainHeader.svelte'
+  import Part from '../lib/Part.svelte'
   import LoadingIcon from '../lib/icons/LoadingIcon.svelte'
-  import PlusIcon from '../lib/icons/PlusIcon.svelte'
-  import EditIcon from '../lib/icons/editIcon.svelte'
-  import { fetchUserBookmarks } from '../utils/github'
+  import { fetchFileBlob, fetchUserBookmarks } from '../utils/github'
   import { userSession } from '../utils/user'
 
   let navigate = useNavigate()
   let username = null
   let isFirstTime = null
-  let bookmarks = null
+  let spacemarks = null
   let isForkClicked = false
 
   $: userSession.subscribe((us) => {
@@ -26,13 +24,12 @@
   })
 
   $: onMount(() => {
-    fetchUserBookmarks(username).then((_bookmarks) => {
-      isFirstTime = _bookmarks ? false : true
+    fetchUserBookmarks(username).then((_spacemarks) => {
+      isFirstTime = _spacemarks ? false : true
       if (isFirstTime) {
         return
       }
-      bookmarks = _bookmarks
-      // bookmarks = _bookmarks.filter((bookmark) => bookmark.path !== 'README.md')
+      spacemarks = _spacemarks.filter((spacemark) => spacemark.path !== 'README.md')
     })
   })
 
@@ -55,7 +52,7 @@
       <div class="flex flex-col justify-center items-center text-center space-y-8">
         <h1 class="font-bold text-6xl">One last step...</h1>
         <p class="w-3/4">
-          Your bookmarks will be stored on a repository within your <a href="https://github.com" class="underline"
+          Your spacemarks will be stored on a repository within your <a href="https://github.com" class="underline"
             >Github</a>
           account. So first, you must create the repository by forking the base <strong>Space Marks</strong> repository.
         </p>
@@ -66,34 +63,27 @@
           ></a>
         <p>After Forking the repository in your account, come back here and click the “Start Editing” button.</p>
         <Button secondary={!isForkClicked} bouncing={isForkClicked} onClick={handleCreateButtonClick}
-          >2. Create First Bookmark</Button>
+          >2. Create First Spacemark</Button>
       </div>
     </main>
   {:else if isFirstTime === false}
-    <main class="flex-1 flex justify-between xl:flex-row items-center flex-col-reverse">
-      <div class="grid xl:grid-flow-col xl:grid-cols-none lg:grid-cols-8 md:grid-cols-2 grid-cols-1">
-        {#each bookmarks as { path, url }, i}
-          <div class="animate-margin-right clicked" style="z-index: {i + 10};">
-            <BookmarkCard {url}>
-              <BookmarkCardAction onClick={() => navigate(`/editor/${path}`)} slot="action-main" Icon={EditIcon}
-                >Edit Bookmark</BookmarkCardAction>
-            </BookmarkCard>
-          </div>
-        {/each}
+    <main class="flex-1 flex flex-col space-y-4 lg:mt-40 mt-10">
+      <div class="mb-4"><h1>Your spacemarks</h1></div>
+      <div class="p-4 bg-slate-800 rounded-md flex flex-row justify-between items-center">
+        {#if spacemarks.length === 0}
+          <span>You have not created any spacemarks yet</span>
+        {:else}
+          <span>You have {spacemarks.length} spacemarks</span>
+        {/if}
+        <Button _class="" onClick={() => navigate('/editor')}>Add new</Button>
       </div>
-      <div class="">
-        <BookmarkCard
-          class="group pointer-fine:opacity-10 pointer-fine:hover:opacity-100 pointer-fine:transition-opacity">
-          <div slot="content" class="pointer-fine:invisible pointer-fine:group-hover:visible">
-            <h1>Click the button below to create a new bookmark</h1>
-          </div>
-          <BookmarkCardAction
-            _class="animate-bounce"
-            onClick={() => navigate(`/editor/`)}
-            slot="action-main"
-            Icon={PlusIcon}>Add Bookmark</BookmarkCardAction>
-        </BookmarkCard>
-      </div>
+      {#each spacemarks as { path, url }, i}
+        {#await fetchFileBlob(url) then file}
+          <Link to={`/editor/${path}`} class="spacemark-card p-4 hover:bg-slate-800 rounded-md">
+            <Part markdown={atob(file.content.slice(0, 500)) + ' ...'} />
+          </Link>
+        {/await}
+      {/each}
     </main>
   {:else}
     <div class="flex flex-1 justify-center items-center">
@@ -102,19 +92,3 @@
   {/if}
   <Footer />
 </section>
-
-<style>
-  @media (min-width: 1280px) {
-    .animate-margin-right:hover {
-      margin-right: -40px;
-    }
-    .animate-margin-right:hover:not(:first-child) {
-      margin-left: 20px;
-    }
-
-    .animate-margin-right {
-      margin-right: -180px;
-      transition: margin 0.3s ease-in-out;
-    }
-  }
-</style>

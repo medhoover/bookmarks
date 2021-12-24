@@ -15,21 +15,21 @@
   }
 }
 
-.bookmark-card p,
-.bookmark-card span,
-.bookmark-card a,
-.bookmark-card h1,
-.bookmark-card h2,
-.bookmark-card h3,
-.bookmark-card h4,
-.bookmark-card h5,
-.bookmark-card strong {
+.spacemark-card p,
+.spacemark-card span,
+.spacemark-card a,
+.spacemark-card h1,
+.spacemark-card h2,
+.spacemark-card h3,
+.spacemark-card h4,
+.spacemark-card h5,
+.spacemark-card strong {
   @apply text-xs;
   @apply font-normal;
 }
-.bookmark-card h1,
-.bookmark-card h2,
-.bookmark-card h3 {
+.spacemark-card h1,
+.spacemark-card h2,
+.spacemark-card h3 {
   @apply text-base;
   @apply font-semibold;
 }

@@ -10,7 +10,8 @@
   import ReactAdapter from '../lib/ReactAdapter.svelte'
   import LoadingIcon from '../lib/icons/LoadingIcon.svelte'
   import * as editorConfig from '../utils/editor'
-  import { fetchFile, fetchUserBookmarks, updateFile } from '../utils/github'
+  import { fetchFile, fetchUserBookmarks, saveFile } from '../utils/github'
+  import { parse } from '../utils/markdown'
   import { userSession } from '../utils/user'
 
   export let path: string = null
@@ -21,7 +22,6 @@
   let changed = false
   let saving = false
   let success = null
-  $: isNewFile = path === null
   let navigate = useNavigate()
   let revervedNames = []
   let id = undefined
@@ -39,15 +39,27 @@
     if (!content || content === markdown) {
       return
     }
+
     saving = true
     try {
-      if (isNewFile) {
-        // Generate new file name
-        // Save file
-      } else {
-        const result = await updateFile(username, path, content, previous_sha)
-        success = result !== null ? true : false
+      let title = path
+      if (title === null) {
+        title =
+          content
+            .split('\n')[0]
+            .replace(/[\W_]+/g, ' ')
+            .trim()
+            .replaceAll(' ', '_')
+            .toLowerCase() + '.md'
+        if (revervedNames.includes(title)) {
+          title = '2_' + title
+        }
       }
+      const result = await saveFile(username, title, content, previous_sha)
+      if (!path) {
+        navigate(`/editor/${username}/${title}`)
+      }
+      success = result !== null ? true : false
     } finally {
       saving = false
     }
@@ -73,7 +85,7 @@
 
     revervedNames = repoTree.map((item) => item.path)
 
-    if (isNewFile) {
+    if (path === null) {
       return
     }
     let file = await fetchFile(username, path)
@@ -101,12 +113,12 @@
   <div class="my-4 w-full flex flex-row justify-end space-x-8 items-center">
     {#if success === true}
       <span class="text-neutral-400">
-        Bookmark was successfully {isNewFile ? 'Create' : 'Updated'}! <Link
+        Spacemark was successfully {path === null ? 'Create' : 'Updated'}! <Link
           _class="underline"
           to={`/${username}/${path}`}>View the result here</Link>
       </span>
     {:else if success === false}
-      <span class="text-red-800"> Could not save bookmark. Please try again. </span>
+      <span class="text-red-800"> Could not save spacemark. Please try again. </span>
     {/if}
     {#if saving}
       <LoadingIcon width="20" />
@@ -114,7 +126,7 @@
     {#if changed}
       <Button secondary onClick={onCancel}>Cancel</Button>
     {/if}
-    <Button disabled={saving} onClick={onSave}>Publish</Button>
+    <Button disabled={!changed || saving} onClick={onSave}>Publish</Button>
   </div>
   <Footer />
 </section>
