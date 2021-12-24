@@ -123,7 +123,7 @@
       <span class="text-neutral-400">
         Spacemark was successfully {path === null ? 'Create' : 'Updated'}!
       </span>
-      <Link _class="underline" to={`/${username}/${path}`}>View the result here</Link>
+      <Link blank _class="underline" to={`/${username}/${path}`}>View the result here</Link>
     {:else if success === false}
       <span class="text-red-800"> Could not save spacemark. Please try again. </span>
     {/if}

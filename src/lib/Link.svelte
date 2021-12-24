@@ -3,6 +3,7 @@
 
   export let to: string
   export let underline = false
+  export let blank = false
   export let _class = ''
 
   let isCurrent: boolean = false
@@ -14,4 +15,4 @@
   } ${_class}`
 </script>
 
-<Link {to} {getProps} class={className}><slot /></Link>
+<Link {to} {getProps} target={blank ? '_blank' : undefined} class={className}><slot /></Link>
