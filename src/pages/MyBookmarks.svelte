@@ -8,7 +8,7 @@
   import MainHeader from '../lib/MainHeader.svelte'
   import Part from '../lib/Part.svelte'
   import LoadingIcon from '../lib/icons/LoadingIcon.svelte'
-  import { fetchFileBlob, fetchUserBookmarks } from '../utils/github'
+  import { deleteFile, fetchFileBlob, fetchUserBookmarks } from '../utils/github'
   import { userSession } from '../utils/user'
 
   let navigate = useNavigate()
@@ -23,15 +23,14 @@
     }
   })
 
-  $: onMount(() => {
-    fetchUserBookmarks(username).then((_spacemarks) => {
-      isFirstTime = _spacemarks ? false : true
-      if (isFirstTime) {
-        return
-      }
-      spacemarks = _spacemarks.filter((spacemark) => spacemark.path !== 'README.md')
-    })
-  })
+  $: loadBookmarks = async () => {
+    const result = await fetchUserBookmarks(username)
+    isFirstTime = result ? false : true
+    if (isFirstTime) {
+      return
+    }
+    spacemarks = result.filter((spacemark: any) => spacemark.path !== 'README.md')
+  }
 
   $: onForkClick = () => {
     isForkClicked = true
@@ -43,6 +42,19 @@
     }
     navigate('/editor')
   }
+
+  $: handleFileDelete = async (path: string, sha: string) => {
+    if (!window.confirm('Do you realy like to remove this bookmark?')) {
+      return
+    }
+    await deleteFile(username, path, sha)
+
+    setTimeout(() => loadBookmarks(), 2000)
+  }
+
+  $: onMount(() => {
+    loadBookmarks()
+  })
 </script>
 
 <section class="container mx-auto flex flex-col">
@@ -77,7 +89,7 @@
         {/if}
         <Button onClick={() => navigate('/editor')}>Add new Spacemark</Button>
       </div>
-      {#each spacemarks as { path, url }, i}
+      {#each spacemarks as { path, url, sha } (sha)}
         {#await fetchFileBlob(url) then file}
           <div
             class="group p-4 hover:bg-slate-800 rounded-md cursor-pointer"
@@ -98,7 +110,7 @@
 
               <span
                 class="group-hover:visible invisible font-bold hover:underline underline-offset-2"
-                on:click|stopPropagation={() => window.alert('not yet supported')}>Remove</span>
+                on:click|stopPropagation={() => handleFileDelete(path, sha)}>Remove</span>
             </div>
           </div>
         {/await}

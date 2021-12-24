@@ -88,6 +88,24 @@ export async function saveFile(username: string, filePath: string, content: stri
   }
 }
 
+export async function deleteFile(username: string, filePath: string, sha?: string) {
+  try {
+    const response = await fetch(`https://api.github.com/repos/${username}/${BOOKMARK_REPO}/contents/${filePath}`, {
+      method: 'DELETE',
+      body: JSON.stringify({ sha, message: 'deleted by spacemarks.co' }),
+    })
+
+    const text = await response.text()
+    if (!response.ok) {
+      throw new Error(text)
+    }
+    return true
+  } catch (error) {
+    console.error(error)
+    return null
+  }
+}
+
 export async function fetchCurrentUser() {
   try {
     const response = await fetch(`https://api.github.com/user`)
