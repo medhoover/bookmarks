@@ -1,6 +1,7 @@
 import * as fetchIntercept from 'fetch-intercept'
 
 import { BOOKMARK_REPO } from '../constants'
+import { sanitizeMarkdownPathURL } from './markdown'
 import { getAccessToken, logout } from './user'
 
 fetchIntercept.register({
@@ -27,7 +28,9 @@ fetchIntercept.register({
 
 export async function fetchFileContent(username: string, filePath: string) {
   try {
-    const response = await fetch(`https://raw.githubusercontent.com/${username}/${BOOKMARK_REPO}/master/${filePath}`)
+    const response = await fetch(
+      `https://raw.githubusercontent.com/${username}/${BOOKMARK_REPO}/master/${sanitizeMarkdownPathURL(filePath)}`
+    )
 
     const text = await response.text()
     if (!response.ok) {
@@ -42,7 +45,9 @@ export async function fetchFileContent(username: string, filePath: string) {
 
 export async function fetchFile(username: string, filePath: string) {
   try {
-    const response = await fetch(`https://api.github.com/repos/${username}/${BOOKMARK_REPO}/contents/${filePath}`)
+    const response = await fetch(
+      `https://api.github.com/repos/${username}/${BOOKMARK_REPO}/contents/${sanitizeMarkdownPathURL(filePath)}`
+    )
 
     const text = await response.json()
     if (!response.ok) {
@@ -72,10 +77,13 @@ export async function fetchFileBlob(url: string) {
 
 export async function saveFile(username: string, filePath: string, content: string, sha?: string) {
   try {
-    const response = await fetch(`https://api.github.com/repos/${username}/${BOOKMARK_REPO}/contents/${filePath}`, {
-      method: 'PUT',
-      body: JSON.stringify({ content: btoa(content), sha, message: 'changed by spacemarks.co' }),
-    })
+    const response = await fetch(
+      `https://api.github.com/repos/${username}/${BOOKMARK_REPO}/contents/${sanitizeMarkdownPathURL(filePath)}`,
+      {
+        method: 'PUT',
+        body: JSON.stringify({ content: btoa(content), sha, message: 'changed by spacemarks.co' }),
+      }
+    )
 
     const text = await response.text()
     if (!response.ok) {
@@ -90,10 +98,13 @@ export async function saveFile(username: string, filePath: string, content: stri
 
 export async function deleteFile(username: string, filePath: string, sha?: string) {
   try {
-    const response = await fetch(`https://api.github.com/repos/${username}/${BOOKMARK_REPO}/contents/${filePath}`, {
-      method: 'DELETE',
-      body: JSON.stringify({ sha, message: 'deleted by spacemarks.co' }),
-    })
+    const response = await fetch(
+      `https://api.github.com/repos/${username}/${BOOKMARK_REPO}/contents/${sanitizeMarkdownPathURL(filePath)}`,
+      {
+        method: 'DELETE',
+        body: JSON.stringify({ sha, message: 'deleted by spacemarks.co' }),
+      }
+    )
 
     const text = await response.text()
     if (!response.ok) {

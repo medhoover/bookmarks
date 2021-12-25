@@ -10,6 +10,7 @@
   import Part from '../lib/Part.svelte'
   import LoadingIcon from '../lib/icons/LoadingIcon.svelte'
   import { deleteFile, fetchFileBlob, fetchUserBookmarks } from '../utils/github'
+  import { sanitizeMarkdownPath } from '../utils/markdown'
   import { userSession } from '../utils/user'
 
   let navigate = useNavigate()
@@ -103,7 +104,7 @@
         {#if !Cookies.get(path)}
           <div
             class="group p-4 dark:hover:bg-slate-800 hover:bg-slate-100 rounded-md cursor-pointer"
-            on:click|stopPropagation={() => navigate(`/editor/${path}`)}>
+            on:click|stopPropagation={() => navigate(`/editor/${sanitizeMarkdownPath(path)}`)}>
             <div class="spacemark-card">
               <Part markdown={atob(file.content.slice(0, 500)) + ' ...'} />
             </div>
@@ -112,12 +113,11 @@
                 class="group-hover:visible invisible font-bold hover:underline underline-offset-2"
                 use:link
                 target="_blank"
-                href={`/${username}/${path}`}
+                href={`/@${username}/${sanitizeMarkdownPath(path)}`}
                 on:click|stopPropagation>
                 View
               </a>
               <span class="group-hover:visible invisible font-bold hover:underline underline-offset-2">Edit</span>
-
               <span
                 class="group-hover:visible invisible font-bold hover:underline underline-offset-2"
                 on:click|stopPropagation={() => handleFileDelete(path, sha)}>Remove</span>

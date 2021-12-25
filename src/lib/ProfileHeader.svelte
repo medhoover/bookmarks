@@ -26,7 +26,7 @@
   {#await userProfilePromise}
     <LoadingIcon />
   {:then userProfile}
-    <div class="space-x-6 cursor-pointer" on:click={() => navigate(`/${username}`)}>
+    <div class="space-x-6 cursor-pointer" on:click={() => navigate(`/@${username}`)}>
       <span class="font-bold">{userProfile.name}</span>
       <img class="inline-block h-12 w-12 rounded-full" src={userProfile.avatar_url} alt={userProfile.login} />
     </div>

@@ -23,3 +23,17 @@ export function parse(markdown: string) {
 export function render(markdown: string) {
   return xss(MD.render(markdown, undefined))
 }
+
+export function sanitizeMarkdownPath(path: string) {
+  if (path.endsWith('.md')) {
+    return path.slice(0, -3)
+  }
+  return path
+}
+
+export function sanitizeMarkdownPathURL(path: string) {
+  if (path.endsWith('.md')) {
+    return path
+  }
+  return path + '.md'
+}

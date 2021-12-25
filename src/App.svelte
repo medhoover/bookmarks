@@ -25,9 +25,9 @@
       <PrivateRoute path="/profile"><MyBookmarks /></PrivateRoute>
       <PrivateRoute path="/editor"><Editor /></PrivateRoute>
       <Route path="/editor/:path" primary={false} let:params><Editor path={params.path} /></Route>
-      <Route path="/:username/" primary={false} let:params><Profile username={params.username} /></Route>
+      <Route path="/:username/" primary={false} let:params><Profile username={params.username.substring(1)} /></Route>
       <Route path="/:username/:path" primary={false} let:params
-        ><Bookmark path={params.path} username={params.username} /></Route>
+        ><Bookmark path={params.path} username={params.username.substring(1)} /></Route>
     </Router>
   </div>
   <Footer />

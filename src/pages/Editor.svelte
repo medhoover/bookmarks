@@ -47,20 +47,19 @@
     try {
       let title = path
       if (title === null) {
-        title =
-          content
-            .split('\n')[0]
-            .replace(/[\W_]+/g, ' ')
-            .trim()
-            .replaceAll(' ', '_')
-            .toLowerCase() + '.md'
-        if (revervedNames.includes(title)) {
-          title = '2_' + title
+        title = content
+          .split('\n')[0]
+          .replace(/[\W_]+/g, ' ')
+          .trim()
+          .replaceAll(' ', '_')
+          .toLowerCase()
+        if (revervedNames.includes(title + '.md')) {
+          title += '_2'
         }
       }
       const result = await saveFile(username, title, content, previous_sha)
       if (!path) {
-        viewLink = `/${username}/${title}`
+        viewLink = `/@${username}/${title}`
         const inOneMinute = new Date(new Date().getTime() + 60 * 1000)
         Cookies.set(path, 'newSpcemarkRecentlyAdded', { expires: inOneMinute })
       }
@@ -98,7 +97,7 @@
       if (file === null) {
         return
       }
-      viewLink = `/${username}/${path}`
+      viewLink = `/@${username}/${path}`
       markdown = atob(file.content)
       previous_sha = file.sha
     })().finally(() => {

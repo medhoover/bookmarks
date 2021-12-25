@@ -8,6 +8,7 @@
   import EyeIcon from '../lib/icons/EyeIcon.svelte'
   import LoadingIcon from '../lib/icons/LoadingIcon.svelte'
   import { fetchUserBookmarks } from '../utils/github'
+  import { sanitizeMarkdownPath } from '../utils/markdown'
 
   export let username: string
   let navigate = useNavigate()
@@ -21,7 +22,7 @@
   {:then bookmarks}
     {#if !!bookmarks}
       {#each bookmarks as { path, url }, i}
-        <a use:link href={`/${username}/${path}`} class="group">
+        <a use:link href={`/@${username}/${sanitizeMarkdownPath(path)}`} class="group">
           <BookmarkCard {url}>
             <BookmarkCardAction _class="text-white" slot="action-main" Icon={EyeIcon}>Open Bookmark</BookmarkCardAction>
           </BookmarkCard>
