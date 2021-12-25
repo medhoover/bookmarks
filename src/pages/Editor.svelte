@@ -12,6 +12,7 @@
   import LoadingIcon from '../lib/icons/LoadingIcon.svelte'
   import * as editorConfig from '../utils/editor'
   import { fetchFile, fetchUserBookmarks, saveFile } from '../utils/github'
+  import { isDarkModeEnabled } from '../utils/theme'
   import { userSession } from '../utils/user'
 
   export let path: string = null
@@ -27,6 +28,7 @@
   let revervedNames = []
   let id = undefined
   let viewLink = '#'
+  let editorTheme = editorConfig.light
 
   $: userSession.subscribe((us) => {
     if (us.logged_in) {
@@ -82,6 +84,9 @@
 
   $: onMount(() => {
     ;(async function () {
+      if (isDarkModeEnabled()) {
+        editorTheme = editorConfig.dark
+      }
       let repoTree = await fetchUserBookmarks(username)
       if (!repoTree) {
         navigate('/profile')
@@ -120,7 +125,7 @@
         autoFocus
         readOnly={false}
         onChange={onChane}
-        theme={editorConfig.dark} />
+        theme={editorTheme} />
     {/if}
   </main>
   <div class="my-4 w-full flex flex-row justify-end space-x-8 items-center">

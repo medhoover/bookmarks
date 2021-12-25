@@ -26,8 +26,11 @@
           class="grid place-content-center 2xl:grid-cols-5 xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-0">
           {#each bookmarks as { path, url }, i}
             <BookmarkCard {url}>
-              <BookmarkCardAction onClick={() => navigate(`/${username}/${path}`)} slot="action-main" Icon={EyeIcon}
-                >Open Bookmark</BookmarkCardAction>
+              <BookmarkCardAction
+                _class="text-white"
+                onClick={() => navigate(`/${username}/${path}`)}
+                slot="action-main"
+                Icon={EyeIcon}>Open Bookmark</BookmarkCardAction>
             </BookmarkCard>
           {/each}
         </div>

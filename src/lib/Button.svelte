@@ -3,12 +3,12 @@
   export let bouncing: boolean = false
   export let onClick = undefined
   export let _class = ''
-  let buttonProps
+  let buttonProps: any
 
   $: ({ secondary, disabled, onClick, _class, ...buttonProps } = $$props)
 
-  $: className = `font-bold text-white py-2 px-8 rounded-lg ${
-    secondary ? 'border-2' : 'bg-blue-700 hover:bg-blue-800'
+  $: className = `font-bold py-2 px-8 rounded-lg ${
+    secondary ? 'text-slate-900 border border-slate-400' : 'text-white bg-blue-700 hover:bg-blue-800'
   } ${bouncing ? 'animate-bounce' : ''}`
 
   $: handleClick = (e: any) => {

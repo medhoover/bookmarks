@@ -74,7 +74,8 @@
           account. So first, you must create the repository by forking the base <strong>Space Marks</strong> repository.
         </p>
       </div>
-      <div class="rounded-lg bg-slate-700 p-10 md:w-3/4 flex flex-col items-center text-center space-y-10">
+      <div
+        class="rounded-lg dark:bg-slate-700 bg-slate-100 text-center p-10 md:w-3/4 flex flex-col items-center space-y-10">
         <a href="https://github.com/spacemarks/_spacemarks/fork" target="_blank"
           ><Button bouncing={!isForkClicked} secondary={isForkClicked} onClick={onForkClick}>1. Fork Repository</Button
           ></a>
@@ -84,13 +85,12 @@
       </div>
     </main>
   {:else if isFirstTime === false}
-    <main class="flex-1 flex flex-col space-y-4 lg:mt-30 lg:mb-20 my-10">
-      <div class="mb-4"><h1>Your spacemarks</h1></div>
+    <main class="flex-1 flex flex-col space-y-4 lg:mt-28 lg:mb-20 my-10">
       {#if Cookies.get('newSpcemarkRecentlyAdded')}
         <Alert _class="font-bold"
           ><span class="animate-ping">☕️</span> &nbsp;&nbsp; New spacemarks might take a minute to be listed.</Alert>
       {/if}
-      <div class="p-4 bg-slate-800 rounded-md flex flex-row justify-between items-center">
+      <div class="p-4 dark:bg-slate-800 bg-slate-100 rounded-md flex flex-row justify-between items-center">
         {#if spacemarks.length === 0}
           <span>You have not created any spacemarks yet</span>
         {:else}
@@ -102,7 +102,7 @@
         {#await fetchFileBlob(url) then file}
           {#if !Cookies.get(path)}
             <div
-              class="group p-4 hover:bg-slate-800 rounded-md cursor-pointer"
+              class="group p-4 dark:hover:bg-slate-800 hover:bg-slate-100 rounded-md cursor-pointer"
               on:click|stopPropagation={() => navigate(`/editor/${path}`)}>
               <div class="spacemark-card">
                 <Part markdown={atob(file.content.slice(0, 500)) + ' ...'} />

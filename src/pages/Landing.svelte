@@ -23,8 +23,13 @@
     <div class="flex flex-col justify-center items-center text-center space-y-8">
       <h1 class="font-bold text-6xl">Create & share bookmarks for <u>FREE</u></h1>
       <p class="w-3/4">
-        Most calendars are designed for teams. Slate is designed for freelancers who want a simple way to plan their
-        schedule.
+        Spacemarks help you share content with others for free using
+        <a class="underline" href="https://github.com" target="_blank">Github</a>
+        and
+        <a class="underline" href="https://en.wikipedia.org/wiki/Markdown" target="_blank">Markdown</a>. Built with
+        <a class="underline" href="https://svelte.dev" target="_blank">Svelte</a> (and
+        <a class="underline" href="https://reactjs.org" target="_blank">React</a>) and
+        <a class="underline" href="https://deno.land" target="_blank">Deno</a>
       </p>
       {#if !isUserLoggedIn}
         <Button _class="animate-bounce" onClick={login}>Login with Github</Button>
@@ -36,7 +41,7 @@
         url="https://api.github.com/repos/medhoover/_spacemarks/git/blobs/442cf80dd6c9b2e44c1231e38113e4b3f3470242">
         <div slot="action-main">
           {#if isUserLoggedIn}
-            <BookmarkAction _class="animate-bounce" Icon={PlusIcon} onClick={() => navigate('/editor')}
+            <BookmarkAction _class="animate-bounce text-white" Icon={PlusIcon} onClick={() => navigate('/editor')}
               >Create a bookmark</BookmarkAction>
           {/if}
         </div>

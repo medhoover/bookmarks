@@ -6,15 +6,22 @@
   import LoadingIcon from './icons/LoadingIcon.svelte'
 
   export let username: string
+  export let showLogo = true
 
   $: userProfilePromise = fetchUser(username)
   let navigate = useNavigate()
 </script>
 
 <nav class="w-full md:m-auto m-4 flex md:flex-row flex-col justify-between items-center">
-  <Link to="/"
-    ><div tabindex="0" class="bg-[url('/img/spacemarks_logo.svg')] bg-no-repeat bg-contain md:w-60 md:h-16 w-40 h-20" />
-  </Link>
+  {#if showLogo}
+    <Link to="/"
+      ><div
+        tabindex="0"
+        class="bg-[url('/img/spacemarks_logo_dark.svg')] dark:bg-[url('/img/spacemarks_logo_light.svg')] bg-no-repeat bg-contain md:w-60 md:h-16 w-40 h-20" />
+    </Link>
+  {:else}
+    <div />
+  {/if}
 
   {#await userProfilePromise}
     <LoadingIcon />

@@ -2,6 +2,7 @@
   import { onMount } from 'svelte'
 
   import { fetchFileBlob } from '../utils/github'
+  import { isDarkModeEnabled } from '../utils/theme'
   import Part from './Part.svelte'
 
   export let url: string | null = null
@@ -35,7 +36,7 @@
     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 372 777" class="w-full h-full min-w-[300px]">
       <g filter="url(#a)">
         <path
-          fill="#fff"
+          fill={isDarkModeEnabled() ? '#fff' : '#f8fafc'}
           d="M31 51a24 24 0 0 1 24-24h262a24 24 0 0 1 24 24v602.95a24 24 0 0 1-13.55 21.6l-131 63.4a24 24 0 0 1-20.9 0l-131-63.4A24 24 0 0 1 31 653.95V51Z" /></g>
       <defs>
         <filter
