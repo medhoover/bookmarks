@@ -31,7 +31,7 @@
     if (isFirstTime) {
       return
     }
-    spacemarks = result.filter((spacemark: any) => spacemark.path !== 'README.md')
+    spacemarks = result
   }
 
   $: onForkClick = () => {
