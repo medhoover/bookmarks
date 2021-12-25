@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { useNavigate } from 'svelte-navigator'
+  import { useNavigate, link } from 'svelte-navigator'
 
   import BookmarkCard from '../lib/BookmarkCard.svelte'
   import BookmarkCardAction from '../lib/BookmarkCardAction.svelte'
@@ -21,13 +21,11 @@
   {:then bookmarks}
     {#if !!bookmarks}
       {#each bookmarks as { path, url }, i}
-        <BookmarkCard {url}>
-          <BookmarkCardAction
-            _class="text-white"
-            onClick={() => navigate(`/${username}/${path}`)}
-            slot="action-main"
-            Icon={EyeIcon}>Open Bookmark</BookmarkCardAction>
-        </BookmarkCard>
+        <a use:link href={`/${username}/${path}`} class="group">
+          <BookmarkCard {url}>
+            <BookmarkCardAction _class="text-white" slot="action-main" Icon={EyeIcon}>Open Bookmark</BookmarkCardAction>
+          </BookmarkCard>
+        </a>
       {/each}
     {:else}
       No bookmarks were found
