@@ -2,6 +2,7 @@
   import { setContext } from 'svelte'
   import { Router, Route } from 'svelte-navigator'
 
+  import Footer from './lib/Footer.svelte'
   import PrivateRoute from './lib/PrivateRoute.svelte'
   import ThemeSwitcher from './lib/ThemeSwitcher.svelte'
   import Bookmark from './pages/Bookmark.svelte'
@@ -17,7 +18,7 @@
 <div
   class="antialiased bg-slate-0 dark:bg-slate-900 text-slate-900 dark:text-white min-h-screen flex flex-col lg:text-base md:text-sm">
   <ThemeSwitcher />
-  <div class="lg:p-8 lg:pt-0 p-4 pt-0 flex-1 flex h-full">
+  <div class="container mx-auto flex-1 flex flex-col lg:p-8 lg:pt-0 p-4 pt-0">
     <Router>
       <Route path="/" primary={false}><Home /></Route>
       <Route path="/oauth/callback" primary={false}>Redirecting you to the main page...</Route>
@@ -29,6 +30,7 @@
         ><Bookmark path={params.path} username={params.username} /></Route>
     </Router>
   </div>
+  <Footer />
 </div>
 
 <style>

@@ -5,7 +5,6 @@
   import { useNavigate } from 'svelte-navigator'
 
   import Button from '../lib/Button.svelte'
-  import Footer from '../lib/Footer.svelte'
   import Link from '../lib/Link.svelte'
   import MainHeader from '../lib/MainHeader.svelte'
   import ReactAdapter from '../lib/ReactAdapter.svelte'
@@ -112,39 +111,37 @@
   })
 </script>
 
-<section class="container mx-auto flex flex-col">
-  <MainHeader />
-  <main class="flex-1 mx-auto 2xl:w-2/3 xl:w-3/4 lg:w-4/5 w-5/6 md:mt-30 mt-20">
-    {#if loading}
-      <LoadingIcon />
-    {:else}
-      <!-- https://github.com/outline/rich-markdown-editor -->
-      <ReactAdapter
-        {id}
-        el={ReactEditor}
-        value={markdown}
-        autoFocus
-        readOnly={false}
-        onChange={onChane}
-        theme={editorTheme} />
-    {/if}
-  </main>
-  <div class="my-4 w-full flex flex-row justify-end space-x-8 items-center">
-    {#if success === true}
-      <span class="text-neutral-400">
-        Spacemark was successfully {path === null ? 'Create' : 'Updated'}!
-      </span>
-      <Link blank _class="underline" to={viewLink}>View the result here</Link>
-    {:else if success === false}
-      <span class="text-red-800"> Could not save spacemark. Please try again. </span>
-    {/if}
-    {#if saving}
-      <LoadingIcon width="20" />
-    {/if}
-    {#if changed}
-      <Button secondary onClick={onCancel}>Cancel</Button>
-    {/if}
-    <Button disabled={!changed || saving} onClick={onSave}>Publish</Button>
-  </div>
-  <Footer />
-</section>
+<MainHeader />
+
+<main class="flex-1 mt-20">
+  {#if loading}
+    <LoadingIcon />
+  {:else}
+    <!-- https://github.com/outline/rich-markdown-editor -->
+    <ReactAdapter
+      {id}
+      el={ReactEditor}
+      value={markdown}
+      autoFocus
+      readOnly={false}
+      onChange={onChane}
+      theme={editorTheme} />
+  {/if}
+</main>
+<div class="my-4 flex flex-row justify-end space-x-8 items-center">
+  {#if success === true}
+    <span class="text-neutral-400">
+      Spacemark was successfully {path === null ? 'Create' : 'Updated'}!
+    </span>
+    <Link blank _class="underline" to={viewLink}>View the result here</Link>
+  {:else if success === false}
+    <span class="text-red-800"> Could not save spacemark. Please try again. </span>
+  {/if}
+  {#if saving}
+    <LoadingIcon width="20" />
+  {/if}
+  {#if changed}
+    <Button secondary onClick={onCancel}>Cancel</Button>
+  {/if}
+  <Button disabled={!changed || saving} onClick={onSave}>Publish</Button>
+</div>

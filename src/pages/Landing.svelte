@@ -4,7 +4,6 @@
   import BookmarkCard from '../lib/BookmarkCard.svelte'
   import BookmarkAction from '../lib/BookmarkCardAction.svelte'
   import Button from '../lib/Button.svelte'
-  import Footer from '../lib/Footer.svelte'
   import MainHeader from '../lib/MainHeader.svelte'
   import PlusIcon from '../lib/icons/PlusIcon.svelte'
   import { login, userSession } from '../utils/user'
@@ -16,10 +15,9 @@
   })
 </script>
 
-<section class="container mx-auto flex flex-col">
-  <MainHeader />
-
-  <main class="flex-1 grid md:grid-cols-2 grid-row-2 auto-rows-max place-content-evenly place-items-center gap-4">
+<MainHeader />
+<main class="flex-1 flex flex-col justify-center">
+  <section class="grid md:grid-cols-2 grid-row-2 auto-rows-max place-content-evenly place-items-center gap-4">
     <div class="flex flex-col justify-center items-center text-center space-y-8">
       <h1 class="font-bold text-6xl">Create & share bookmarks for <u>FREE</u></h1>
       <p class="w-3/4">
@@ -47,6 +45,5 @@
         </div>
       </BookmarkCard>
     </div>
-  </main>
-  <Footer />
-</section>
+  </section>
+</main>

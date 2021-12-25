@@ -17,7 +17,7 @@
   }
 </script>
 
-<div class="relative w-screen h-8 px-2 mb-1 flex flex-row justify-end">
+<div class="relative container mx-auto mb-3 flex flex-row justify-end">
   <select
     class="peer opacity-0 cursor-pointer z-10"
     name="theme"
@@ -28,7 +28,7 @@
     <option value="dark">Dark Mode</option>
     <option value="light">Light Mode</option>
   </select>
-  <div class="absolute top-3 right-4 w-12 peer-hover:opacity-100 opacity-80">
+  <div class="absolute top-3 right-5 w-12 peer-hover:opacity-100 opacity-80">
     <div class="flex flex-row">
       {#if isDarkModeEnabled(currentMode)}
         <SunIcon width="20" />

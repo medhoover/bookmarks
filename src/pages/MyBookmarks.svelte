@@ -6,7 +6,6 @@
 
   import Alert from '../lib/Alert.svelte'
   import Button from '../lib/Button.svelte'
-  import Footer from '../lib/Footer.svelte'
   import MainHeader from '../lib/MainHeader.svelte'
   import Part from '../lib/Part.svelte'
   import LoadingIcon from '../lib/icons/LoadingIcon.svelte'
@@ -62,9 +61,9 @@
   })
 </script>
 
-<section class="container md:m-auto flex flex-col">
-  <MainHeader />
-  {#if isFirstTime === true}
+<MainHeader />
+{#if isFirstTime === true}
+  <section class="flex-1 flex flex-col justify-center">
     <main class="flex-1 grid md:grid-cols-2 grid-row-2 auto-rows-max place-content-evenly place-items-center gap-4">
       <div class="flex flex-col justify-center items-center text-center space-y-8">
         <h1 class="font-bold text-6xl">One last step...</h1>
@@ -84,53 +83,52 @@
           >2. Create First Spacemark</Button>
       </div>
     </main>
-  {:else if isFirstTime === false}
-    <main class="flex-1 flex flex-col space-y-4 lg:mt-28 lg:mb-20 my-10">
-      {#if Cookies.get('newSpcemarkRecentlyAdded')}
-        <Alert _class="font-bold"
-          ><span class="animate-ping">☕️</span> &nbsp;&nbsp; New spacemarks might take a minute to be listed.</Alert>
+  </section>
+{:else if isFirstTime === false}
+  <main class="flex-1 flex flex-col space-y-4 lg:mt-28">
+    {#if Cookies.get('newSpcemarkRecentlyAdded')}
+      <Alert _class="font-bold"
+        ><span class="animate-ping">☕️</span> &nbsp;&nbsp; New spacemarks might take a minute to be listed.</Alert>
+    {/if}
+    <div class="p-4 dark:bg-slate-800 bg-slate-100 rounded-md flex flex-row justify-between items-center">
+      {#if spacemarks.length === 0}
+        <span>You have not created any spacemarks yet</span>
+      {:else}
+        <span>You have {spacemarks.length} spacemarks</span>
       {/if}
-      <div class="p-4 dark:bg-slate-800 bg-slate-100 rounded-md flex flex-row justify-between items-center">
-        {#if spacemarks.length === 0}
-          <span>You have not created any spacemarks yet</span>
-        {:else}
-          <span>You have {spacemarks.length} spacemarks</span>
-        {/if}
-        <Button onClick={() => navigate('/editor')}>Add new Spacemark</Button>
-      </div>
-      {#each spacemarks as { path, url, sha } (sha)}
-        {#await fetchFileBlob(url) then file}
-          {#if !Cookies.get(path)}
-            <div
-              class="group p-4 dark:hover:bg-slate-800 hover:bg-slate-100 rounded-md cursor-pointer"
-              on:click|stopPropagation={() => navigate(`/editor/${path}`)}>
-              <div class="spacemark-card">
-                <Part markdown={atob(file.content.slice(0, 500)) + ' ...'} />
-              </div>
-              <div class="flex flex-row justify-end space-x-4 mx-4">
-                <a
-                  class="group-hover:visible invisible font-bold hover:underline underline-offset-2"
-                  use:link
-                  target="_blank"
-                  href={`/${username}/${path}`}
-                  on:click|stopPropagation>
-                  View
-                </a>
-                <span class="group-hover:visible invisible font-bold hover:underline underline-offset-2">Edit</span>
-
-                <span
-                  class="group-hover:visible invisible font-bold hover:underline underline-offset-2"
-                  on:click|stopPropagation={() => handleFileDelete(path, sha)}>Remove</span>
-              </div>
-            </div>
-          {/if}
-        {/await}
-      {/each}
-    </main>
-  {:else}
-    <div class="flex flex-1 justify-center items-center">
-      <LoadingIcon />
+      <Button onClick={() => navigate('/editor')}>Add new Spacemark</Button>
     </div>
-  {/if}
-  <Footer />
-</section>
+    {#each spacemarks as { path, url, sha } (sha)}
+      {#await fetchFileBlob(url) then file}
+        {#if !Cookies.get(path)}
+          <div
+            class="group p-4 dark:hover:bg-slate-800 hover:bg-slate-100 rounded-md cursor-pointer"
+            on:click|stopPropagation={() => navigate(`/editor/${path}`)}>
+            <div class="spacemark-card">
+              <Part markdown={atob(file.content.slice(0, 500)) + ' ...'} />
+            </div>
+            <div class="flex flex-row justify-end space-x-4 mx-4">
+              <a
+                class="group-hover:visible invisible font-bold hover:underline underline-offset-2"
+                use:link
+                target="_blank"
+                href={`/${username}/${path}`}
+                on:click|stopPropagation>
+                View
+              </a>
+              <span class="group-hover:visible invisible font-bold hover:underline underline-offset-2">Edit</span>
+
+              <span
+                class="group-hover:visible invisible font-bold hover:underline underline-offset-2"
+                on:click|stopPropagation={() => handleFileDelete(path, sha)}>Remove</span>
+            </div>
+          </div>
+        {/if}
+      {/await}
+    {/each}
+  </main>
+{:else}
+  <div class="flex-1 flex flex-col justify-center">
+    <LoadingIcon />
+  </div>
+{/if}

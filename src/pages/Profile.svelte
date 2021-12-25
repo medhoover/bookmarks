@@ -14,31 +14,23 @@
   $: bookmarksPromise = fetchUserBookmarks(username)
 </script>
 
-<section class="container mx-auto min-h-screen flex flex-col">
-  <ProfileHeader {username} />
-
-  <main class="flex-1 flex justify-center items-center">
-    {#await bookmarksPromise}
-      <LoadingIcon />
-    {:then bookmarks}
-      {#if !!bookmarks}
-        <div
-          class="grid place-content-center 2xl:grid-cols-5 xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-0">
-          {#each bookmarks as { path, url }, i}
-            <BookmarkCard {url}>
-              <BookmarkCardAction
-                _class="text-white"
-                onClick={() => navigate(`/${username}/${path}`)}
-                slot="action-main"
-                Icon={EyeIcon}>Open Bookmark</BookmarkCardAction>
-            </BookmarkCard>
-          {/each}
-        </div>
-      {:else}
-        No bookmarks were found
-      {/if}
-    {/await}
-  </main>
-
-  <Footer />
-</section>
+<ProfileHeader {username} />
+<main class="flex-1 flex justify-center items-center flex-wrap">
+  {#await bookmarksPromise}
+    <LoadingIcon />
+  {:then bookmarks}
+    {#if !!bookmarks}
+      {#each bookmarks as { path, url }, i}
+        <BookmarkCard {url}>
+          <BookmarkCardAction
+            _class="text-white"
+            onClick={() => navigate(`/${username}/${path}`)}
+            slot="action-main"
+            Icon={EyeIcon}>Open Bookmark</BookmarkCardAction>
+        </BookmarkCard>
+      {/each}
+    {:else}
+      No bookmarks were found
+    {/if}
+  {/await}
+</main>
