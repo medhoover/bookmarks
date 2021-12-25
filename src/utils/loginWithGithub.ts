@@ -32,7 +32,7 @@ export class PopupWindow {
 
   constructor(
     public options = { height: 1000, width: 600 },
-    public url = `https://bookmarks-wiki.herokuapp.com/login`,
+    public url = `https://spacemarks.herokuapp.com/login`,
     public id = 'github-oauth-authorize'
   ) {}
 
