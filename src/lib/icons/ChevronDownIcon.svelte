@@ -5,8 +5,9 @@
   stroke-linecap="round"
   stroke-linejoin="round"
   stroke-width="2"
-  class="feather feather-moon"
+  class="feather feather-chevron-down"
   viewBox="0 0 24 24"
+  width="24"
   {...$$props}>
-  <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+  <path d="m6 9 6 6 6-6" />
 </svg>

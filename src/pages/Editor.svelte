@@ -12,7 +12,7 @@
   import LoadingIcon from '../lib/icons/LoadingIcon.svelte'
   import * as editorConfig from '../utils/editor'
   import { fetchFile, fetchUserBookmarks, saveFile } from '../utils/github'
-  import { isDarkModeEnabled } from '../utils/theme'
+  import { isDarkModeEnabled, themeColor } from '../utils/theme'
   import { userSession } from '../utils/user'
 
   export let path: string = null
@@ -84,9 +84,6 @@
 
   $: onMount(() => {
     ;(async function () {
-      if (isDarkModeEnabled()) {
-        editorTheme = editorConfig.dark
-      }
       let repoTree = await fetchUserBookmarks(username)
       if (!repoTree) {
         navigate('/profile')
@@ -108,6 +105,10 @@
     })().finally(() => {
       loading = false
     })
+  })
+
+  themeColor.subscribe((theme) => {
+    editorTheme = isDarkModeEnabled(theme) ? editorConfig.dark : editorConfig.light
   })
 </script>
 

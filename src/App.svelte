@@ -15,18 +15,20 @@
 </script>
 
 <div
-  class="antialiased bg-slate-0 dark:bg-slate-900 text-slate-900 dark:text-white min-h-screen h-full flex lg:p-8 sm:p-4 lg:text-base md:text-sm">
+  class="antialiased bg-slate-0 dark:bg-slate-900 text-slate-900 dark:text-white min-h-screen flex flex-col lg:text-base md:text-sm">
   <ThemeSwitcher />
-  <Router>
-    <Route path="/" primary={false}><Home /></Route>
-    <Route path="/oauth/callback" primary={false}>Redirecting you to the main page...</Route>
-    <PrivateRoute path="/profile"><MyBookmarks /></PrivateRoute>
-    <PrivateRoute path="/editor"><Editor /></PrivateRoute>
-    <Route path="/editor/:path" primary={false} let:params><Editor path={params.path} /></Route>
-    <Route path="/:username/" primary={false} let:params><Profile username={params.username} /></Route>
-    <Route path="/:username/:path" primary={false} let:params
-      ><Bookmark path={params.path} username={params.username} /></Route>
-  </Router>
+  <div class="lg:p-8 lg:pt-0 p-4 pt-0 flex-1 flex h-full">
+    <Router>
+      <Route path="/" primary={false}><Home /></Route>
+      <Route path="/oauth/callback" primary={false}>Redirecting you to the main page...</Route>
+      <PrivateRoute path="/profile"><MyBookmarks /></PrivateRoute>
+      <PrivateRoute path="/editor"><Editor /></PrivateRoute>
+      <Route path="/editor/:path" primary={false} let:params><Editor path={params.path} /></Route>
+      <Route path="/:username/" primary={false} let:params><Profile username={params.username} /></Route>
+      <Route path="/:username/:path" primary={false} let:params
+        ><Bookmark path={params.path} username={params.username} /></Route>
+    </Router>
+  </div>
 </div>
 
 <style>

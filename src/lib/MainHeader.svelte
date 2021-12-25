@@ -11,7 +11,7 @@
   let handleLogin = () => login().then(() => navigate('/profile'))
 </script>
 
-<nav class="w-full md:m-auto m-4 flex flex-row justify-center md:justify-between items-center">
+<nav class="w-full md:mx-auto mx-4 flex flex-row justify-center md:justify-between items-center">
   <Link to="/"
     ><div
       tabindex="0"

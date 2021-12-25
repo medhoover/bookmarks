@@ -12,7 +12,7 @@
   let navigate = useNavigate()
 </script>
 
-<nav class="w-full md:m-auto m-4 flex md:flex-row flex-col justify-between items-center">
+<nav class="w-full md:m-auto mx-4 flex md:flex-row flex-col justify-between items-center">
   {#if showLogo}
     <Link to="/"
       ><div
