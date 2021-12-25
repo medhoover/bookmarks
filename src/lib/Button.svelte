@@ -8,7 +8,9 @@
   $: ({ secondary, disabled, onClick, _class, ...buttonProps } = $$props)
 
   $: className = `font-bold py-2 px-8 rounded-lg ${
-    secondary ? 'text-slate-900 border border-slate-400' : 'text-white bg-blue-700 hover:bg-blue-800'
+    secondary
+      ? 'border border-slate-400 text-slate-900 dark:border-slate-500 dark:text-white'
+      : 'text-white bg-blue-700 hover:bg-blue-800'
   } ${bouncing ? 'animate-bounce' : ''}`
 
   $: handleClick = (e: any) => {

@@ -3,6 +3,7 @@
   import { Router, Route } from 'svelte-navigator'
 
   import PrivateRoute from './lib/PrivateRoute.svelte'
+  import ThemeSwitcher from './lib/ThemeSwitcher.svelte'
   import Bookmark from './pages/Bookmark.svelte'
   import Editor from './pages/Editor.svelte'
   import Home from './pages/Landing.svelte'
@@ -15,6 +16,7 @@
 
 <div
   class="antialiased bg-slate-0 dark:bg-slate-900 text-slate-900 dark:text-white min-h-screen h-full flex lg:p-8 sm:p-4 lg:text-base md:text-sm">
+  <ThemeSwitcher />
   <Router>
     <Route path="/" primary={false}><Home /></Route>
     <Route path="/oauth/callback" primary={false}>Redirecting you to the main page...</Route>

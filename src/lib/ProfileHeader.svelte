@@ -20,7 +20,7 @@
         class="bg-[url('/img/spacemarks_logo_dark.svg')] dark:bg-[url('/img/spacemarks_logo_light.svg')] bg-no-repeat bg-contain md:w-60 md:h-16 w-40 h-20" />
     </Link>
   {:else}
-    <div />
+    <div class="md:w-60 md:h-16 w-40 h-20" />
   {/if}
 
   {#await userProfilePromise}
