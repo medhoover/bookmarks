@@ -30,9 +30,9 @@
   <div class="absolute top-3 right-5 w-12 peer-hover:opacity-100 opacity-80">
     <div class="flex flex-row">
       {#if isDarkModeEnabled(currentMode)}
-        <MoonIcon width="20" class="stroke-black dark:stroke-white" />
+        <MoonIcon height="20" width="20" class="stroke-black dark:stroke-white" />
       {:else}
-        <SunIcon width="20" class="stroke-black dark:stroke-white" />
+        <SunIcon height="20" width="20" class="stroke-black dark:stroke-white" />
       {/if}
       <ChevronDownIcon width="16" class="stroke-black dark:stroke-white ml-1" />
     </div>
