@@ -9,7 +9,7 @@
   import MainHeader from '../lib/MainHeader.svelte'
   import Part from '../lib/Part.svelte'
   import LoadingIcon from '../lib/icons/LoadingIcon.svelte'
-  import { deleteFile, fetchFileBlob, fetchUserBookmarks } from '../utils/github'
+  import { decodeContent, deleteFile, fetchFileBlob, fetchUserBookmarks } from '../utils/github'
   import { sanitizeMarkdownPath } from '../utils/markdown'
   import { userSession } from '../utils/user'
 
@@ -105,21 +105,23 @@
           <div
             class="group p-4 dark:hover:bg-slate-800 hover:bg-slate-100 rounded-md cursor-pointer"
             on:click|stopPropagation={() => navigate(`/editor/${sanitizeMarkdownPath(path)}`)}>
-            <div class="spacemark-card">
-              <Part markdown={atob(file.content.slice(0, 500)) + ' ...'} />
-            </div>
-            <div class="flex flex-row justify-end space-x-4 mx-4">
+            <Part
+              _class="max-h-32 overflow-hidden"
+              small
+              markdown={decodeContent(file.content.slice(0, 500)) + ' ...'} />
+
+            <div class="pointer-fine:invisible group-hover:visible flex flex-row justify-end space-x-4 mx-4">
               <a
-                class="group-hover:visible invisible font-bold hover:underline underline-offset-2"
+                class="font-bold hover:underline underline-offset-2"
                 use:link
                 target="_blank"
                 href={`/@${username}/${sanitizeMarkdownPath(path)}`}
                 on:click|stopPropagation>
                 View
               </a>
-              <span class="group-hover:visible invisible font-bold hover:underline underline-offset-2">Edit</span>
+              <span class="font-bold hover:underline underline-offset-2">Edit</span>
               <span
-                class="group-hover:visible invisible font-bold hover:underline underline-offset-2"
+                class="font-bold hover:underline underline-offset-2"
                 on:click|stopPropagation={() => handleFileDelete(path, sha)}>Remove</span>
             </div>
           </div>

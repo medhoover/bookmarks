@@ -12,15 +12,15 @@
   let navigate = useNavigate()
 </script>
 
-<nav class="w-full md:mx-auto mx-4 flex flex-row justify-center md:justify-between items-center">
+<nav class="w-full mx-auto flex flex-col md:flex-row md:justify-between items-center">
   {#if showLogo}
     <Link to="/"
       ><div
         tabindex="0"
-        class="bg-[url('/img/spacemarks_logo_dark.svg')] dark:bg-[url('/img/spacemarks_logo_light.svg')] bg-no-repeat bg-contain md:w-60 md:h-16 w-40 h-20" />
+        class="bg-[url('/img/spacemarks_logo_dark.svg')] dark:bg-[url('/img/spacemarks_logo_light.svg')] bg-no-repeat bg-contain md:w-60 w-40 h-16" />
     </Link>
   {:else}
-    <div class="md:w-60 md:h-16 w-40 h-20" />
+    <div class="h-16" />
   {/if}
 
   {#await userProfilePromise}
@@ -28,7 +28,7 @@
   {:then userProfile}
     <div class="space-x-6 cursor-pointer" on:click={() => navigate(`/@${username}`)}>
       <span class="font-bold">{userProfile.name}</span>
-      <img class="inline-block h-12 w-12 rounded-full" src={userProfile.avatar_url} alt={userProfile.login} />
+      <img class="hidden md:inline-block h-12 w-12 rounded-full" src={userProfile.avatar_url} alt={userProfile.login} />
     </div>
   {/await}
 </nav>

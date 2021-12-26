@@ -5,7 +5,7 @@ const config = {
     extend: {},
   },
 
-  plugins: [require('tailwindcss-touch')()],
+  plugins: [require('tailwindcss-touch')(), require('@tailwindcss/typography')],
 }
 
 module.exports = config

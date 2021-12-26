@@ -1,8 +1,7 @@
 <script lang="ts">
   import { onMount } from 'svelte'
 
-  import { fetchFileBlob } from '../utils/github'
-  import { isDarkModeEnabled } from '../utils/theme'
+  import { decodeContent, fetchFileBlob } from '../utils/github'
   import Part from './Part.svelte'
 
   export let url: string | null = null
@@ -18,16 +17,16 @@
     if (file === null) {
       return
     }
-    markdown = atob(file.content)
+    markdown = decodeContent(file.content)
   })
 </script>
 
 <div {...$$props} on:click={onClick}>
   <div class="relative w-[300px] select-none">
     <div class="absolute w-full h-full p-11 flex flex-col">
-      <div class="spacemark-card flex-1 text-gray-900 overflow-hidden overflow-ellipsis bottom-transparent">
+      <div class="flex-1 text-gray-900 overflow-hidden overflow-ellipsis bottom-transparent">
         {#if markdown}
-          <Part {markdown} />
+          <Part small light {markdown} />
         {/if}
         <slot name="content" />
       </div>
@@ -36,7 +35,7 @@
     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 372 777" class="w-full h-full min-w-[300px]">
       <g filter="url(#a)">
         <path
-          fill={isDarkModeEnabled() ? '#fff' : '#f8fafc'}
+          class="dark:fill-white fill-slate-50"
           d="M31 51a24 24 0 0 1 24-24h262a24 24 0 0 1 24 24v602.95a24 24 0 0 1-13.55 21.6l-131 63.4a24 24 0 0 1-20.9 0l-131-63.4A24 24 0 0 1 31 653.95V51Z" /></g>
       <defs>
         <filter

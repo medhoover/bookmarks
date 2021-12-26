@@ -17,7 +17,7 @@
     <LoadingIcon />
   </main>
 {:then markdown}
-  <div class="mx-auto 2xl:w-3/4 xl:w-4/5 mt-20">
+  <div class="mx-auto mt-20">
     <Part {markdown} />
   </div>
 {/await}

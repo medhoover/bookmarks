@@ -4,6 +4,10 @@ import { BOOKMARK_REPO } from '../constants'
 import { sanitizeMarkdownPathURL } from './markdown'
 import { getAccessToken, logout } from './user'
 
+export function decodeContent(content: string) {
+  // @ts-ignore <>
+  return atob(content)
+}
 fetchIntercept.register({
   request(url, config?: RequestInit) {
     const accessToken = getAccessToken()

@@ -11,7 +11,7 @@
   let handleLogin = () => login().then(() => navigate('/profile'))
 </script>
 
-<nav class="w-full md:mx-auto mx-4 flex flex-row justify-center md:justify-between items-center">
+<nav class="w-full mx-auto flex flex-row justify-center md:justify-between items-center">
   <Link to="/"
     ><div
       tabindex="0"
@@ -27,9 +27,11 @@
       >Open source</a>
   </div>
 
-  {#if isUserLoggedIn}
-    <Button _class="hidden md:block" secondary onClick={logout}>Logout</Button>
-  {:else}
-    <Button _class="hidden md:block" secondary onClick={handleLogin}>Login with Github</Button>
-  {/if}
+  <div class="hidden md:block">
+    {#if isUserLoggedIn}
+      <Button secondary onClick={logout}>Logout</Button>
+    {:else}
+      <Button secondary onClick={handleLogin}>Login with Github</Button>
+    {/if}
+  </div>
 </nav>

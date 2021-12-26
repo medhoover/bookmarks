@@ -35,7 +35,7 @@ themeColor.subscribe((theme) => {
     }
   }
 
-  if (theme !== 'light' && isSystemSchemeDark()) {
+  if (theme === 'dark' || isSystemSchemeDark()) {
     document.documentElement.classList.add('dark')
   } else {
     document.documentElement.classList.remove('dark')

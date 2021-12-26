@@ -10,7 +10,7 @@
   import ReactAdapter from '../lib/ReactAdapter.svelte'
   import LoadingIcon from '../lib/icons/LoadingIcon.svelte'
   import * as editorConfig from '../utils/editor'
-  import { fetchFile, fetchUserBookmarks, saveFile } from '../utils/github'
+  import { decodeContent, fetchFile, fetchUserBookmarks, saveFile } from '../utils/github'
   import { isDarkModeEnabled, themeColor } from '../utils/theme'
   import { userSession } from '../utils/user'
 
@@ -98,7 +98,7 @@
         return
       }
       viewLink = `/@${username}/${path}`
-      markdown = atob(file.content)
+      markdown = decodeContent(file.content)
       previous_sha = file.sha
     })().finally(() => {
       loading = false

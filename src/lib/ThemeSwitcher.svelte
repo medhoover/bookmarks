@@ -1,7 +1,6 @@
 <script lang="ts">
   import '../utils/theme'
   import { isDarkModeEnabled, themeColor, ThemeColor } from '../utils/theme'
-  import AirplayIcon from './icons/AirplayIcon.svelte'
   import ChevronDownIcon from './icons/ChevronDownIcon.svelte'
   import MoonIcon from './icons/MoonIcon.svelte'
   import SunIcon from './icons/SunIcon.svelte'
@@ -31,11 +30,11 @@
   <div class="absolute top-3 right-5 w-12 peer-hover:opacity-100 opacity-80">
     <div class="flex flex-row">
       {#if isDarkModeEnabled(currentMode)}
-        <SunIcon width="20" />
+        <MoonIcon width="20" class="stroke-black dark:stroke-white" />
       {:else}
-        <MoonIcon width="20" />
+        <SunIcon width="20" class="stroke-black dark:stroke-white" />
       {/if}
-      <ChevronDownIcon width="16" />
+      <ChevronDownIcon width="16" class="stroke-black dark:stroke-white ml-1" />
     </div>
   </div>
 </div>
