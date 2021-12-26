@@ -47,10 +47,10 @@ export async function fetchFileContent(username: string, filePath: string) {
   }
 }
 
-export async function fetchFile(username: string, filePath: string) {
+export async function fetchFile(username: string, filePath: string, repo: string = BOOKMARK_REPO) {
   try {
     const response = await fetch(
-      `https://api.github.com/repos/${username}/${BOOKMARK_REPO}/contents/${sanitizeMarkdownPathURL(filePath)}`
+      `https://api.github.com/repos/${username}/${repo}/contents/${sanitizeMarkdownPathURL(filePath)}`
     )
 
     const text = await response.json()

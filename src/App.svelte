@@ -8,6 +8,7 @@
   import ThemeSwitcher from './lib/ThemeSwitcher.svelte'
   import Bookmark from './pages/Bookmark.svelte'
   import Editor from './pages/Editor.svelte'
+  import Help from './pages/Help.svelte'
   import Home from './pages/Landing.svelte'
   import MyBookmarks from './pages/MyBookmarks.svelte'
   import Profile from './pages/Profile.svelte'
@@ -23,6 +24,7 @@
     <Router>
       <Route path="/" primary={false}><Home /></Route>
       <Route path="/oauth/callback" primary={false}>Redirecting you to the main page...</Route>
+      <Route path="/help" primary={false}><Help /></Route>
       <PrivateRoute path="/profile"><MyBookmarks /></PrivateRoute>
       <PrivateRoute path="/editor"><Editor /></PrivateRoute>
       <Route path="/editor/:path" primary={false} let:params><Editor path={params.path} /></Route>

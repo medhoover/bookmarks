@@ -22,7 +22,7 @@
     {#if isUserLoggedIn}
       <Link to="/profile">My Spacemarks</Link>
     {/if}
-    <Link to="/spacemarks/how_it_works">How it works</Link>
+    <Link to="/help">Need help?</Link>
     <a class="font-semibold underline-offset-8 hover:underline" href="https://github.com/spacemarks" target="_blank"
       >Open source</a>
   </div>
