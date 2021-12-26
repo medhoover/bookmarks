@@ -2,7 +2,7 @@
   import Cookies from 'js-cookie'
   import ReactEditor from 'rich-markdown-editor'
   import { onMount } from 'svelte'
-  import { useNavigate } from 'svelte-navigator'
+  import { useLocation, useNavigate } from 'svelte-navigator'
 
   import Button from '../lib/Button.svelte'
   import Link from '../lib/Link.svelte'
@@ -24,6 +24,7 @@
   let success = null
   let loading = true
   let navigate = useNavigate()
+  let location = useLocation()
   let revervedNames = []
   let id = undefined
   let viewLink = '#'
@@ -32,6 +33,12 @@
   $: userSession.subscribe((us) => {
     if (us.logged_in) {
       username = us.login
+    }
+  })
+
+  $: location.subscribe((l) => {
+    if (l.search.includes('new=true')) {
+      success = true
     }
   })
 
@@ -62,6 +69,7 @@
         viewLink = `/@${username}/${title}`
         const inOneMinute = new Date(new Date().getTime() + 60 * 1000)
         Cookies.set(path, 'newSpcemarkRecentlyAdded', { expires: inOneMinute })
+        navigate(`/editor/${title}?new=true`, { replace: true })
       }
       success = result !== null ? true : false
     } finally {
